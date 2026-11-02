@@ -101,7 +101,7 @@
     "eslint-plugin-sonarjs": "^3.0.7",
     "eslint-plugin-tailwindcss": "^3.18.3",
     "globals": "^17.14.0",
-    "happy-dom": "^20.14.6",
+    "happy-dom": "^21.0.4",
     "knip": "^5.88.1",
     "postcss": "^8.5.32",
     "prettier": "^3.9.10",
