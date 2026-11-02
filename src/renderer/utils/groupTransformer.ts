@@ -255,7 +255,7 @@ export function incrementalUpdateConversation(
             isOngoing: false,
             status: group.status === 'in_progress' ? 'complete' : group.status,
           },
-        } as ChatItem;
+        };
       }
       break; // Only the last AI group could have isOngoing
     }
@@ -333,7 +333,7 @@ export function incrementalUpdateConversation(
               isOngoing: true,
               status: 'in_progress',
             },
-          } as ChatItem;
+          };
         }
         break;
       }

@@ -55,7 +55,7 @@ interface LinkedToolItemProps {
   registerRef?: (el: HTMLDivElement | null) => void;
 }
 
-export const LinkedToolItem: React.FC<LinkedToolItemProps> = React.memo(function LinkedToolItem({
+export const LinkedToolItem: React.FC<LinkedToolItemProps> = React.memo(function LinkedToolItemFn({
   linkedTool,
   onClick,
   isExpanded,

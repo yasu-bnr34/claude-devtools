@@ -59,7 +59,7 @@ export function parseModelString(model: string | undefined): ModelInfo | null {
   for (let i = 1; i < parts.length; i++) {
     const part = parts[i];
     if (KNOWN_FAMILIES.includes(part as KnownModelFamily)) {
-      family = part as KnownModelFamily;
+      family = part;
       familyIndex = i;
       break;
     }

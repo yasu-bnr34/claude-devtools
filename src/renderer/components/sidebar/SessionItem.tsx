@@ -130,7 +130,7 @@ const ConsumptionBadge = ({
   );
 };
 
-export const SessionItem = React.memo(function SessionItem({
+export const SessionItem = React.memo(function SessionItemFn({
   session,
   isActive,
   isPinned,

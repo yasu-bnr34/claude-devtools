@@ -15,7 +15,7 @@ interface WriteToolViewerProps {
 }
 
 export const WriteToolViewer: React.FC<WriteToolViewerProps> = ({ linkedTool }) => {
-  const toolUseResult = linkedTool.result?.toolUseResult as Record<string, unknown> | undefined;
+  const toolUseResult = linkedTool.result?.toolUseResult;
 
   const filePath = (toolUseResult?.filePath as string) || (linkedTool.input.file_path as string);
   const content = (toolUseResult?.content as string) || (linkedTool.input.content as string) || '';

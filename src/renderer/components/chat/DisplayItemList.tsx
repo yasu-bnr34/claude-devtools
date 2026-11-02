@@ -61,7 +61,7 @@ function truncateText(text: string, maxLength: number): string {
  *
  * The list is completely flat with no nested toggles or hierarchies.
  */
-export const DisplayItemList = React.memo(function DisplayItemList({
+export const DisplayItemList = React.memo(function DisplayItemListFn({
   items,
   onItemClick,
   expandedItemIds,

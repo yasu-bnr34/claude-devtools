@@ -18,7 +18,7 @@ export const ReadToolViewer: React.FC<ReadToolViewerProps> = ({ linkedTool }) =>
   const filePath = linkedTool.input.file_path as string;
 
   // Prefer enriched toolUseResult data
-  const toolUseResult = linkedTool.result?.toolUseResult as Record<string, unknown> | undefined;
+  const toolUseResult = linkedTool.result?.toolUseResult;
   const fileData = toolUseResult?.file as
     | {
         content?: string;

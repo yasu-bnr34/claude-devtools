@@ -23,7 +23,7 @@ interface ThinkingItemProps {
   notificationDotColor?: TriggerColor;
 }
 
-export const ThinkingItem: React.FC<ThinkingItemProps> = React.memo(function ThinkingItem({
+export const ThinkingItem: React.FC<ThinkingItemProps> = React.memo(function ThinkingItemFn({
   step,
   preview,
   onClick,
