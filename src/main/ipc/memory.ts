@@ -178,7 +178,7 @@ async function handleCopyPath(
     } else {
       absolutePath = reader.getDirPath(projectIdResult.value);
     }
-    clipboard.writeText(absolutePath);
+    await clipboard.writeText(absolutePath);
     return { success: true };
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
