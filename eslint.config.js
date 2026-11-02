@@ -14,6 +14,7 @@ import boundaries from 'eslint-plugin-boundaries';
 import eslintComments from '@eslint-community/eslint-plugin-eslint-comments';
 import eslintConfigPrettier from 'eslint-config-prettier/flat';
 import globals from 'globals';
+import path from 'node:path';
 
 export default defineConfig([
   // Global ignores
@@ -243,8 +244,8 @@ export default defineConfig([
         version: 'detect',
       },
       tailwindcss: {
-        // Tailwind config path (relative to cwd)
-        config: 'tailwind.config.js',
+        // Tailwind config path (absolute; eslint-plugin-tailwindcss >=3.18.3 cannot resolve relative paths)
+        config: path.resolve(import.meta.dirname, 'tailwind.config.js'),
         // Allow custom classnames (e.g., from CSS modules)
         callees: ['classnames', 'clsx', 'cn'],
       },
