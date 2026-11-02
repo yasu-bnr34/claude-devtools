@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { act } from 'react';
 import { createRoot } from 'react-dom/client';
-import { act } from 'react-dom/test-utils';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { useVisibleAIGroup } from '../../../src/renderer/hooks/useVisibleAIGroup';
+
+(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
 class FakeIntersectionObserver {
   constructor(_callback: IntersectionObserverCallback, _options?: IntersectionObserverInit) {}
@@ -23,9 +24,9 @@ describe('useVisibleAIGroup', () => {
   });
 
   it('uses provided rootRef as IntersectionObserver root', async () => {
-    const observerSpy = vi.fn((cb: IntersectionObserverCallback, opts?: IntersectionObserverInit) =>
-      new FakeIntersectionObserver(cb, opts)
-    );
+    const observerSpy = vi.fn(function (cb: IntersectionObserverCallback, opts?: IntersectionObserverInit) {
+      return new FakeIntersectionObserver(cb, opts);
+    });
 
     vi.stubGlobal('IntersectionObserver', observerSpy as unknown as typeof IntersectionObserver);
 
@@ -49,6 +50,8 @@ describe('useVisibleAIGroup', () => {
     const lastCall = observerSpy.mock.calls[observerSpy.mock.calls.length - 1];
     expect(lastCall?.[1]?.root).toBe(rootEl);
 
-    root.unmount();
+    act(() => {
+      root.unmount();
+    });
   });
 });

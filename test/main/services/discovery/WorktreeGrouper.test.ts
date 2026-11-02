@@ -7,6 +7,20 @@ import { LocalFileSystemProvider } from '@main/services/infrastructure/LocalFile
 import { Project } from '@main/types';
 import { gitIdentityResolver } from '@main/services/parsing/GitIdentityResolver';
 
+// Mock the SubprojectRegistry so it returns no session filter, which allows all sessions
+vi.mock('@main/services/discovery/SubprojectRegistry', () => ({
+  subprojectRegistry: {
+    getSessionFilter: () => null,
+  },
+}));
+
+// Mock SessionContentFilter to always return true (not noise)
+vi.mock('@main/services/discovery/SessionContentFilter', () => ({
+  SessionContentFilter: {
+    hasNonNoiseMessages: vi.fn().mockResolvedValue(true),
+  },
+}));
+
 describe('WorktreeGrouper', () => {
   let tmpDir: string;
   let mainRepoDir: string;
@@ -46,20 +60,6 @@ describe('WorktreeGrouper', () => {
   });
 
   it('groups main repo and worktree together', async () => {
-    // Mock the SubprojectRegistry so it returns no session filter, which allows all sessions
-    vi.mock('@main/services/discovery/SubprojectRegistry', () => ({
-      subprojectRegistry: {
-        getSessionFilter: () => null,
-      },
-    }));
-
-    // Mock SessionContentFilter to always return true (not noise)
-    vi.mock('@main/services/discovery/SessionContentFilter', () => ({
-      SessionContentFilter: {
-        hasNonNoiseMessages: vi.fn().mockResolvedValue(true),
-      },
-    }));
-
     const projects: Project[] = [
       {
         id: 'main-repo-id',
