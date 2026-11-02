@@ -54,7 +54,7 @@
     "@fastify/cors": "^11.3.1",
     "@fastify/static": "^9.3.0",
     "@tanstack/react-virtual": "^3.14.25",
-    "date-fns": "^3.6.0",
+    "date-fns": "^4.4.0",
     "electron-updater": "^6.8.11",
     "fastify": "^5.12.7",
     "idb-keyval": "^6.3.0",
