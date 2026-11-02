@@ -36,7 +36,7 @@ interface ChatHistoryProps {
   tabId?: string;
 }
 
-export const ChatHistory = ({ tabId }: ChatHistoryProps): JSX.Element => {
+export const ChatHistory = ({ tabId }: ChatHistoryProps): React.JSX.Element => {
   const VIRTUALIZATION_THRESHOLD = 30;
   const ESTIMATED_CHAT_ITEM_HEIGHT = 260;
 

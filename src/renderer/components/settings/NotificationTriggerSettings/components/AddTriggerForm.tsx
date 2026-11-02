@@ -110,7 +110,7 @@ export const AddTriggerForm = ({
     handleTestTrigger,
   ]);
 
-  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
+  const handleSubmit = async (e: React.SubmitEvent): Promise<void> => {
     e.preventDefault();
     if (!name.trim()) return;
     if (mode === 'content_match' && !validatePattern(matchPattern)) return;
