@@ -14,7 +14,7 @@
 | src/main/ipc/guards.ts | test/main/ipc/guardsIds.test.ts | 31 | 59.61 → 98.07 | 73.91 → 97.95 |
 | **合計** | 6 ファイル | **104** | | |
 
-`pnpm test`: 60 files / 826 tests 全通過 (exit 0)。ベースラインは 57 files / 722 tests 相当(追加前 753 は上記3ファイル追加後の値)。
+`pnpm test`: 60 files / 826 tests 全通過 (exit 0)。追加前は 54 files / 722 tests(722 + 104 = 826)。
 停止理由: 追加テスト 100 件の上限に到達(ファイル数は 6 / 15)。
 
 ## 疑わしい挙動
