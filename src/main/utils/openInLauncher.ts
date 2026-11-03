@@ -285,7 +285,7 @@ const TARGETS: TargetSpec[] = [
     platforms: ['darwin', 'win32', 'linux'],
     detect: async () => true,
     dispatch: async (absolutePath) => {
-      clipboard.writeText(absolutePath);
+      await clipboard.writeText(absolutePath);
     },
   },
 ];

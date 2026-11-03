@@ -71,7 +71,7 @@ function preprocessWikilinks(content: string): string {
 // Greedy negated character class — linear-time, never backtracks. The class
 // already excludes `]` and newlines so the engine cannot ambiguously consume
 // or release characters when matching the closing `]]`.
-// eslint-disable-next-line sonarjs/slow-regex -- bounded negated char class, no backtracking
+// eslint-disable-next-line sonarjs/super-linear-regex -- bounded negated char class, no backtracking
 const WIKILINK_RE = /\[\[([^\]\n]+)\]\]/g;
 
 function transformProse(text: string): string {

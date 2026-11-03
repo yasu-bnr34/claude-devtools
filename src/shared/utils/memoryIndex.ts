@@ -28,7 +28,7 @@ export interface MemoryIndex {
 // Bounded character classes throughout (no `.+?`) to guarantee linear-time
 // matching even on adversarial input. The negated classes can't include
 // their own terminator (`]` or `)`), so the engine never backtracks.
-// eslint-disable-next-line sonarjs/slow-regex -- bounded negated char classes, no backtracking
+// eslint-disable-next-line sonarjs/super-linear-regex -- bounded negated char classes, no backtracking
 const ENTRY_REGEX = /^\s*-\s*\[([^\]\n]+)\]\(([^)\n]+\.md)\)\s*(?:[—–-]\s*(.*))?$/;
 
 export function parseMemoryIndex(markdown: string, dirListing: readonly string[]): MemoryIndex {
