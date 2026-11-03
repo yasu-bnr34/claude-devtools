@@ -102,7 +102,7 @@ export const createSessionSlice: StateCreator<AppState, [], [], SessionSlice> = 
   sidebarSelectedSessionIds: [],
   sidebarMultiSelectActive: false,
   // Sort mode
-  sessionSortMode: 'recent' as SessionSortMode,
+  sessionSortMode: 'recent',
 
   // Fetch sessions for a specific project (legacy - not paginated)
   fetchSessions: async (projectId: string) => {

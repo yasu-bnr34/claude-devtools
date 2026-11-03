@@ -19,7 +19,7 @@ export function hasSkillInstructions(linkedTool: LinkedToolItem): boolean {
 export function hasReadContent(linkedTool: LinkedToolItem): boolean {
   if (!linkedTool.result) return false;
 
-  const toolUseResult = linkedTool.result.toolUseResult as Record<string, unknown> | undefined;
+  const toolUseResult = linkedTool.result.toolUseResult;
   const fileData = toolUseResult?.file as { content?: string } | undefined;
   if (fileData?.content) return true;
 
@@ -39,7 +39,7 @@ export function hasReadContent(linkedTool: LinkedToolItem): boolean {
 export function hasEditContent(linkedTool: LinkedToolItem): boolean {
   if (linkedTool.input.old_string != null) return true;
 
-  const toolUseResult = linkedTool.result?.toolUseResult as Record<string, unknown> | undefined;
+  const toolUseResult = linkedTool.result?.toolUseResult;
   if (toolUseResult?.oldString != null || toolUseResult?.newString != null) return true;
 
   return false;
@@ -51,7 +51,7 @@ export function hasEditContent(linkedTool: LinkedToolItem): boolean {
 export function hasWriteContent(linkedTool: LinkedToolItem): boolean {
   if (linkedTool.input.content != null || linkedTool.input.file_path != null) return true;
 
-  const toolUseResult = linkedTool.result?.toolUseResult as Record<string, unknown> | undefined;
+  const toolUseResult = linkedTool.result?.toolUseResult;
   if (toolUseResult?.content != null || toolUseResult?.filePath != null) return true;
 
   return false;

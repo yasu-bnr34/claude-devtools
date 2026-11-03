@@ -133,7 +133,7 @@ function walkHast(node: HastNodes, segments: string[], inHlElement: boolean): vo
   if (node.type === 'element' || node.type === 'root') {
     const isHl = node.type === 'element' && HL_TAGS.has(node.tagName);
     for (const child of node.children) {
-      walkHast(child as HastNodes, segments, inHlElement || isHl);
+      walkHast(child, segments, inHlElement || isHl);
     }
   }
   // skip comments, doctypes

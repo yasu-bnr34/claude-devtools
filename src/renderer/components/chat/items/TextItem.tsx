@@ -23,7 +23,7 @@ interface TextItemProps {
   notificationDotColor?: TriggerColor;
 }
 
-export const TextItem: React.FC<TextItemProps> = React.memo(function TextItem({
+export const TextItem: React.FC<TextItemProps> = React.memo(function TextItemFn({
   step,
   preview,
   onClick,

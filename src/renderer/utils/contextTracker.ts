@@ -24,7 +24,7 @@ import {
   getDisplayName,
 } from './claudeMdTracker';
 
-import type { ClaudeMdInjection, ClaudeMdSource } from '../types/claudeMd';
+import type { ClaudeMdInjection } from '../types/claudeMd';
 import type {
   ClaudeMdContextInjection,
   CompactionTokenDelta,
@@ -585,7 +585,7 @@ function createDirectoryInjection(path: string, aiGroupId: string): ClaudeMdInje
   return {
     id: generateInjectionId(path),
     path,
-    source: 'directory' as ClaudeMdSource,
+    source: 'directory',
     displayName: getDisplayName(path, 'directory'),
     isGlobal: false,
     estimatedTokens: 500, // Default estimated tokens

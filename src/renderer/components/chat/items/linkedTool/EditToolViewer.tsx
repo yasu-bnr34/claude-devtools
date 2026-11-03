@@ -21,7 +21,7 @@ interface EditToolViewerProps {
 }
 
 export const EditToolViewer: React.FC<EditToolViewerProps> = ({ linkedTool, status }) => {
-  const toolUseResult = linkedTool.result?.toolUseResult as Record<string, unknown> | undefined;
+  const toolUseResult = linkedTool.result?.toolUseResult;
 
   const filePath = (toolUseResult?.filePath as string) || (linkedTool.input.file_path as string);
   const oldString =

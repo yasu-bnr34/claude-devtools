@@ -394,7 +394,7 @@ export const TokenUsageDisplay = ({
         onFocus={handleMouseEnter}
         onBlur={(e) => {
           // Don't close if focus moved into the popover
-          if (popoverRef.current?.contains(e.relatedTarget as Node)) return;
+          if (popoverRef.current?.contains(e.relatedTarget)) return;
           handleMouseLeave();
         }}
         onKeyDown={(e) => {
