@@ -8,7 +8,7 @@
  * - Testing and connecting to remote hosts
  */
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { api } from '@renderer/api';
 import { useStore } from '@renderer/store';
@@ -63,32 +63,29 @@ export const ConnectionSection = (): React.JSX.Element => {
   const [selectedProfileId, setSelectedProfileId] = useState<string | null>(null);
   const [claudeRootInfo, setClaudeRootInfo] = useState<ClaudeRootInfo | null>(null);
 
-  const loadProfiles = useCallback(async () => {
-    try {
-      const config = await api.config.get();
-      const loaded = config.ssh;
-      setSavedProfiles(loaded?.profiles ?? []);
-    } catch {
-      // ignore
-    }
-  }, []);
-
-  const loadClaudeRootInfo = useCallback(async () => {
-    try {
-      const info = await api.config.getClaudeRootInfo();
-      setClaudeRootInfo(info);
-    } catch {
-      // ignore
-    }
-  }, []);
-
   // Fetch SSH config hosts, saved profiles, and load last connection on mount
+  // Profile / root-info loads are inlined so state is visibly set only after await
   useEffect(() => {
     void fetchSshConfigHosts();
     void loadLastConnection();
-    void loadProfiles();
-    void loadClaudeRootInfo();
-  }, [fetchSshConfigHosts, loadLastConnection, loadProfiles, loadClaudeRootInfo]);
+    void (async () => {
+      try {
+        const config = await api.config.get();
+        const loaded = config.ssh;
+        setSavedProfiles(loaded?.profiles ?? []);
+      } catch {
+        // ignore
+      }
+    })();
+    void (async () => {
+      try {
+        const info = await api.config.getClaudeRootInfo();
+        setClaudeRootInfo(info);
+      } catch {
+        // ignore
+      }
+    })();
+  }, [fetchSshConfigHosts, loadLastConnection]);
 
   // Pre-fill form from saved connection config when it arrives (one-time on mount).
   // setState in effect is intentional: lastSshConfig loads async from IPC, so we can't

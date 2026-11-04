@@ -78,9 +78,19 @@ export const WorkspaceSection = (): React.JSX.Element => {
     }
   }, []);
 
+  // Same body as loadProfiles, inlined so state is visibly set only after await
   useEffect(() => {
-    void loadProfiles();
-  }, [loadProfiles]);
+    void (async () => {
+      try {
+        const config = await api.config.get();
+        setProfiles(config.ssh?.profiles ?? []);
+      } catch (error) {
+        console.error('[WorkspaceSection] Failed to load profiles:', error);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
 
   // Populate form when editing starts
   useEffect(() => {
