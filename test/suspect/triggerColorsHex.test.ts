@@ -10,6 +10,7 @@ import {
   getHighlightProps,
   getToolHighlightProps,
   getTriggerColorDef,
+  isValidHexColor,
   resolveColorHex,
   type TriggerColor,
 } from '../../src/shared/constants/triggerColors';
@@ -18,10 +19,14 @@ import {
 const CSS_HEX_RE = /^#(?:[0-9a-f]{3}|[0-9a-f]{4}|[0-9a-f]{6}|[0-9a-f]{8})$/i;
 
 describe('suspect#2 triggerColors: custom hex handling', () => {
-  // 現在の挙動（要確認）: 5桁・7桁（CSS では無効）も custom hex として受理される
-  it('H-a: 5- and 7-digit hex are accepted as custom colors', () => {
-    expect(getTriggerColorDef('#12345')).toEqual({ key: '#12345', label: '#12345', hex: '#12345' });
-    expect(resolveColorHex('#1234567')).toBe('#1234567');
+  // 修正済み: 5桁・7桁（CSS では無効）は受理せず既定色（red）に戻す
+  it('H-a: 5- and 7-digit hex are rejected and fall back to red', () => {
+    expect(getTriggerColorDef('#12345')).toEqual({ key: 'red', label: 'Red', hex: '#ef4444' });
+    expect(resolveColorHex('#1234567')).toBe('#ef4444');
+    expect(isValidHexColor('#12345')).toBe(false);
+    expect(isValidHexColor('#1234567')).toBe(false);
+    for (const ok of ['#f60', '#f60a', '#ff6600', '#ff6600ff'])
+      expect(isValidHexColor(ok)).toBe(true);
     expect(CSS_HEX_RE.test('#12345')).toBe(false);
     expect(CSS_HEX_RE.test('#1234567')).toBe(false);
   });
@@ -38,22 +43,29 @@ describe('suspect#2 triggerColors: custom hex handling', () => {
     expect(CSS_HEX_RE.test('#ff66004D')).toBe(true);
   });
 
-  // 現在の挙動（要確認）: 3桁 hex に alpha 2桁を連結し、CSS として無効な 5桁 hex になる
-  it('H-d: 3-digit hex + alpha suffix produces invalid 5-digit CSS hex', () => {
+  // 修正済み: 3桁 hex は 6桁に展開してから alpha を付ける
+  it('H-d: 3-digit hex is expanded before appending alpha', () => {
     const { style } = getHighlightProps('#f60');
-    expect(style).toEqual({ boxShadow: '0 0 0 2px #f604D', backgroundColor: '#f600D' });
-    expect(CSS_HEX_RE.test('#f600D')).toBe(false);
+    expect(style).toEqual({ boxShadow: '0 0 0 2px #ff66004D', backgroundColor: '#ff66000D' });
 
     const tool = getToolHighlightProps('#f60');
-    expect(tool.style).toEqual({ boxShadow: '0 0 0 2px #f60', backgroundColor: '#f601A' });
-    expect(CSS_HEX_RE.test('#f601A')).toBe(false);
+    expect(tool.style).toEqual({ boxShadow: '0 0 0 2px #f60', backgroundColor: '#ff66001A' });
   });
 
-  // 現在の挙動（要確認）: 8桁 hex（alpha 付き）に更に alpha を連結し 10桁になる
-  it('H-e: 8-digit hex + alpha suffix produces invalid 10-digit CSS hex', () => {
-    const { style } = getHighlightProps('#ff6600ff');
-    expect(style?.backgroundColor).toBe('#ff6600ff0D');
-    expect(CSS_HEX_RE.test('#ff6600ff0D')).toBe(false);
+  // 修正済み: 4桁・8桁（alpha 付き）は元の alpha を置き換える
+  it('H-e: 4- and 8-digit hex have their alpha replaced', () => {
+    expect(getHighlightProps('#ff6600ff').style?.backgroundColor).toBe('#ff66000D');
+    expect(getHighlightProps('#f60a').style?.backgroundColor).toBe('#ff66000D');
+  });
+
+  it('H-g: every accepted custom hex yields valid CSS hex in highlight styles', () => {
+    for (const c of ['#f60', '#F60A', '#ff6600', '#ff6600ff'] as TriggerColor[]) {
+      const bg = [
+        getHighlightProps(c).style?.backgroundColor,
+        getToolHighlightProps(c).style?.backgroundColor,
+      ];
+      for (const v of bg) expect(CSS_HEX_RE.test(v ?? '')).toBe(true);
+    }
   });
 
   it('H-f: DOM (happy-dom) drops the invalid background color from H-d', () => {

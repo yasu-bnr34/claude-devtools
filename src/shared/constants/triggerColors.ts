@@ -6,14 +6,7 @@
  */
 
 export type TriggerColorKey =
-  | 'red'
-  | 'orange'
-  | 'yellow'
-  | 'green'
-  | 'blue'
-  | 'purple'
-  | 'pink'
-  | 'cyan';
+  'red' | 'orange' | 'yellow' | 'green' | 'blue' | 'purple' | 'pink' | 'cyan';
 
 /** Color value: either a preset key or a custom hex string like '#ff6600'. */
 export type TriggerColor = TriggerColorKey | `#${string}`;
@@ -39,7 +32,30 @@ const DEFAULT_TRIGGER_COLOR: TriggerColorKey = 'red';
 
 const TRIGGER_COLOR_MAP = new Map<string, TriggerColorDef>(TRIGGER_COLORS.map((c) => [c.key, c]));
 
-const HEX_COLOR_RE = /^#[0-9a-fA-F]{3,8}$/;
+/** Valid CSS hex color notations: #rgb, #rgba, #rrggbb, #rrggbbaa. */
+const HEX_COLOR_RE = /^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/;
+
+/** Check if value is a valid CSS hex color (3, 4, 6 or 8 digits). */
+export function isValidHexColor(value: string | undefined): boolean {
+  return HEX_COLOR_RE.test(value ?? '');
+}
+
+/**
+ * Append a 2-digit alpha to a hex color.
+ * Normalizes #rgb / #rgba / #rrggbbaa to #rrggbb first so the result is always
+ * a valid 8-digit hex (the color's own alpha, if any, is replaced).
+ */
+function withAlpha(hex: string, alpha: string): string {
+  let digits = hex.slice(1);
+  if (digits.length === 3 || digits.length === 4) {
+    digits = digits
+      .slice(0, 3)
+      .split('')
+      .map((c) => c + c)
+      .join('');
+  }
+  return `#${digits.slice(0, 6)}${alpha}`;
+}
 
 /** Check if value is a preset color key. */
 export function isPresetColorKey(value: string | undefined): value is TriggerColorKey {
@@ -91,7 +107,10 @@ export function getHighlightProps(color: TriggerColor | undefined): {
   const hex = resolveColorHex(key);
   return {
     className: 'ring-2',
-    style: { boxShadow: `0 0 0 2px ${hex}4D`, backgroundColor: `${hex}0D` },
+    style: {
+      boxShadow: `0 0 0 2px ${withAlpha(hex, '4D')}`,
+      backgroundColor: withAlpha(hex, '0D'),
+    },
   };
 }
 
@@ -121,6 +140,6 @@ export function getToolHighlightProps(color: TriggerColor | undefined): {
   const hex = resolveColorHex(key);
   return {
     className: 'ring-2 animate-pulse',
-    style: { boxShadow: `0 0 0 2px ${hex}`, backgroundColor: `${hex}1A` },
+    style: { boxShadow: `0 0 0 2px ${hex}`, backgroundColor: withAlpha(hex, '1A') },
   };
 }

@@ -36,3 +36,12 @@ pnpm vitest run test/suspect/pathValidationSymlink.test.ts
 ## 未着手
 
 なし（`src/main/utils/sessionStateDetection.ts` は詳細走査していない）。
+
+## 修正（ブランチ fix/suspect-bugs-20261104）
+
+| # | 修正内容 | 更新したテスト |
+|---|---|---|
+| 2 | `triggerColors.ts`: 受理する hex を 3/4/6/8 桁に限定（`isValidHexColor` を追加し `ColorPaletteSelector` も共用）。alpha 連結前に 6 桁へ正規化（3/4 桁は展開、4/8 桁の既存 alpha は置換） | H-a, H-d, H-e を修正後の挙動に更新、H-g 追加 |
+| 3a | `pathValidation.ts`: 実体パス検証で Claude ルートも realpath 化（project と同じ扱い）。重複していた検証処理を `isRealPathWithinAllowedDirectories` に集約 | SL-a, SL-b を修正後の挙動に更新、SL-g（symlink ルート内からの外部エスケープは引き続き拒否）追加 |
+
+注意: 既存設定に 5/7 桁のカスタム色が保存されている場合、修正後は既定色（red）で表示される。

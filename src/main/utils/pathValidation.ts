@@ -79,6 +79,34 @@ function resolveRealPathIfExists(inputPath: string): string | null {
   }
 }
 
+function resolveRealRoot(rootPath: string): string {
+  return resolveRealPathIfExists(rootPath) ?? path.resolve(path.normalize(rootPath));
+}
+
+/**
+ * Checks if an already-resolved real path is within allowed directories.
+ * Both allowed roots (~/.claude and the project) are resolved to their real
+ * paths as well, so a symlinked root (e.g. ~/.claude -> ~/dotfiles/claude)
+ * still contains its own files.
+ */
+function isRealPathWithinAllowedDirectories(
+  normalizedRealTarget: string,
+  projectPath: string | null
+): boolean {
+  const isWindows = process.platform === 'win32';
+  const realClaudeDir = normalizeForCompare(resolveRealRoot(getClaudeBasePath()), isWindows);
+  if (isPathWithinRoot(normalizedRealTarget, realClaudeDir)) {
+    return true;
+  }
+  if (projectPath) {
+    const realProjectPath = normalizeForCompare(resolveRealRoot(projectPath), isWindows);
+    if (isPathWithinRoot(normalizedRealTarget, realProjectPath)) {
+      return true;
+    }
+  }
+  return false;
+}
+
 /**
  * Checks if a path matches any sensitive file patterns.
  *
@@ -183,11 +211,7 @@ export function validateFilePath(
       return { valid: false, error: 'Access to sensitive files is not allowed' };
     }
 
-    const realProjectPath = projectPath
-      ? (resolveRealPathIfExists(projectPath) ?? path.resolve(path.normalize(projectPath)))
-      : null;
-
-    if (!isPathWithinAllowedDirectories(normalizedRealTarget, realProjectPath)) {
+    if (!isRealPathWithinAllowedDirectories(normalizedRealTarget, projectPath)) {
       return {
         valid: false,
         error: 'Path is outside allowed directories (project or Claude root)',
@@ -250,11 +274,7 @@ export function validateOpenPath(
       return { valid: false, error: 'Cannot open sensitive files' };
     }
 
-    const realProjectPath = projectPath
-      ? (resolveRealPathIfExists(projectPath) ?? path.resolve(path.normalize(projectPath)))
-      : null;
-
-    if (!isPathWithinAllowedDirectories(normalizedRealTarget, realProjectPath)) {
+    if (!isRealPathWithinAllowedDirectories(normalizedRealTarget, projectPath)) {
       return {
         valid: false,
         error: 'Path is outside allowed directories',
