@@ -74,9 +74,19 @@ export const GeneralSection = ({
     }
   }, []);
 
+  // Same body as loadClaudeRootInfo, inlined so state is visibly set only after await
   useEffect(() => {
-    void loadClaudeRootInfo();
-  }, [loadClaudeRootInfo]);
+    void (async () => {
+      try {
+        const info = await api.config.getClaudeRootInfo();
+        setClaudeRootInfo(info);
+      } catch (error) {
+        setClaudeRootError(
+          error instanceof Error ? error.message : 'Failed to load local Claude root settings'
+        );
+      }
+    })();
+  }, []);
 
   const handleServerToggle = useCallback(async (enabled: boolean) => {
     setServerLoading(true);
