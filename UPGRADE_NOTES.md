@@ -133,3 +133,63 @@ eslint-plugin-react-hooks 7.0.1 → 7.1.1 は **見送り**（依存は 7.0.1 �
 | テスト | 826 passed / 60 files | 836 passed / 63 files（+10 / +3） |
 | lint | 0 errors / 10 warnings | 0 errors / 10 warnings（変化なし） |
 | 7.1.1 適用時の lint error | 11 | 7 |
+
+## eslint 10 追補（2026-11-04）
+
+Branch: `deps/eslint10-20261104`（base: `origin/main` 00b94ad）
+
+### 結論
+
+eslint 9.39.5 → 10.x は **見送り**（依存は変更なし）。事前調査（`pnpm view <pkg> peerDependencies`）で eslint 10 を peer で許容しないプラグインが4件あったため、手順どおり更新には進んでいない。overrides / `--force` / `--legacy-peer-deps` による回避は行っていない。
+
+### 事前調査
+
+| 対象 | 確認結果 |
+|---|---|
+| eslint 10 の Node 要件 | eslint 10.14.0（latest）: engines `node: ^20.19.0 \|\| ^22.13.0 \|\| >=24`。実行環境 Node 22.23.4 は満たす |
+
+### 更新できたもの
+
+| パッケージ | 旧 → 新 | 備考 |
+|---|---|---|
+| なし | — | 阻害要因があるため更新に進んでいない |
+
+### 見送り（eslint 10 を peer で許容しないもの）
+
+| パッケージ | 現行 | 確認したバージョン | peer `eslint` の範囲 | 備考 |
+|---|---|---|---|---|
+| eslint-plugin-import | 2.32.0 | 2.32.0（latest。`next` は 2.0.0-beta.1 で旧版） | `^2 \|\| ^3 \|\| ^4 \|\| ^5 \|\| ^6 \|\| ^7.2.0 \|\| ^8 \|\| ^9` | 最終更新 2025-06。前々節の試行でも eslint 10 で `import/no-default-export` の読み込みエラー |
+| eslint-plugin-jsx-a11y | 6.10.2 | 6.10.2（latest） | `^3 \|\| ^4 \|\| ^5 \|\| ^6 \|\| ^7 \|\| ^8 \|\| ^9` | 最終更新 2024-10 |
+| eslint-plugin-react | 7.37.5 | 7.37.5（latest。`next` は 7.8.0-rc.0 で旧版） | `^3 \|\| ^4 \|\| ^5 \|\| ^6 \|\| ^7 \|\| ^8 \|\| ^9.7` | 最終更新 2025-04 |
+| eslint-plugin-react-hooks | 7.0.1 | 7.0.1（現行） | `^3.0.0 \|\| … \|\| ^8.0.0-0 \|\| ^9.0.0` | 7.1.1 は `^10.0.0` を許容するが、前節のとおり 7.1.1 は lint error 7 件が残り見送り中。eslint 10 には 7.1.1 への更新が前提になる |
+
+### 参考: eslint 10 を許容するもの（latest で確認）
+
+| パッケージ | 確認したバージョン | peer `eslint` の範囲 |
+|---|---|---|
+| @eslint/js | 10.0.1 | `^10.0.0`（eslint と同時に 9 → 10 が必要） |
+| typescript-eslint（@typescript-eslint/parser・eslint-plugin・utils 同じ） | 8.72.1（現行） | `^8.57.0 \|\| ^9.0.0 \|\| ^10.0.0` |
+| eslint-plugin-react-refresh | 0.5.7（現行） | `^9 \|\| ^10` |
+| eslint-plugin-sonarjs | 4.2.2（現行） | `^8.0.0 \|\| ^9.0.0 \|\| ^10.0.0` |
+| @eslint-community/eslint-plugin-eslint-comments | 4.8.1（現行） | `^6.0.0 \|\| ^7.0.0 \|\| ^8.0.0 \|\| ^9.0.0 \|\| ^10.0.0` |
+| eslint-plugin-boundaries | 7.4.1（現行） | `>=6.0.0` |
+| eslint-plugin-simple-import-sort | 14.0.0（現行） | `>=5.0.0` |
+| eslint-config-prettier | 10.1.8（現行） | `>=7.0.0` |
+| eslint-import-resolver-typescript | 4.4.5（現行） | `*`（ただし eslint-plugin-import に依存） |
+| eslint-plugin-security | 4.2.1（現行） | peer 指定なし |
+| eslint-plugin-tailwindcss | 3.18.3（現行） | eslint の peer 指定なし（4.x は `^9 \|\| ^10` だが peer `tailwindcss ^4` のため対象外） |
+| globals | 17.14.0（現行） | peer 指定なし |
+
+### ベースラインとの差
+
+| 項目 | ベースライン（main 00b94ad） | 本ブランチ |
+|---|---|---|
+| eslint / @eslint/js | 9.39.5 / 9.39.5 | 9.39.5 / 9.39.5（変更なし） |
+| `pnpm check` | exit 0 | exit 0 |
+| テスト | 836 passed / 63 files | 836 passed / 63 files（変化なし） |
+| lint | 0 errors / 10 warnings | 0 errors / 10 warnings（変化なし） |
+| 変更ファイル | — | UPGRADE_NOTES.md のみ |
+
+### 再挑戦の条件
+
+eslint-plugin-import・eslint-plugin-jsx-a11y・eslint-plugin-react が eslint 10 対応版を出し、かつ eslint-plugin-react-hooks 7.1.x の見送り分（前節の 7 件）が解消できること。代替プラグイン（eslint-plugin-import-x 等）への置き換えはルールの意味が変わりうるため今回の範囲外。
