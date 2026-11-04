@@ -38,24 +38,33 @@ describe('suspect#3 symlink handling', () => {
     fs.rmSync(tempRoot, { recursive: true, force: true });
   });
 
-  // 現在の挙動（要確認）: ~/.claude 自体が symlink だと、その配下の実在ファイルが拒否される
-  it('SL-a: existing file under symlinked Claude root is rejected by validateFilePath', () => {
+  // 修正済み: ~/.claude 自体が symlink でも、その配下の実在ファイルは許可される
+  it('SL-a: existing file under symlinked Claude root is accepted by validateFilePath', () => {
     if (isWin) return;
     setClaudeBasePathOverride(linkClaude);
-    const result = validateFilePath(path.join(linkClaude, 'CLAUDE.md'), null);
-    expect(result).toEqual({
-      valid: false,
-      error: 'Path is outside allowed directories (project or Claude root)',
-    });
+    const p = path.join(linkClaude, 'CLAUDE.md');
+    expect(validateFilePath(p, null)).toEqual({ valid: true, normalizedPath: p });
   });
 
   it('SL-b: same for validateOpenPath', () => {
     if (isWin) return;
     setClaudeBasePathOverride(linkClaude);
-    expect(validateOpenPath(path.join(linkClaude, 'CLAUDE.md'), null)).toEqual({
+    const p = path.join(linkClaude, 'CLAUDE.md');
+    expect(validateOpenPath(p, null)).toEqual({ valid: true, normalizedPath: p });
+  });
+
+  it('SL-g: symlink inside symlinked Claude root that escapes it is still rejected', () => {
+    if (isWin) return;
+    const outside = path.join(tempRoot, 'outside');
+    fs.mkdirSync(outside);
+    fs.writeFileSync(path.join(outside, 'x.txt'), 'x', 'utf8');
+    fs.symlinkSync(path.join(outside, 'x.txt'), path.join(realClaude, 'escape.txt'));
+    setClaudeBasePathOverride(linkClaude);
+    expect(validateFilePath(path.join(linkClaude, 'escape.txt'), null)).toEqual({
       valid: false,
-      error: 'Path is outside allowed directories',
+      error: 'Path is outside allowed directories (project or Claude root)',
     });
+    expect(validateOpenPath(path.join(linkClaude, 'escape.txt'), null).valid).toBe(false);
   });
 
   it('SL-c: non-existent file under symlinked Claude root is accepted (realpath skipped)', () => {
@@ -95,7 +104,10 @@ describe('suspect#3 symlink handling', () => {
 
     const entries = await new LocalFileSystemProvider().readdir(dir);
     const byName = Object.fromEntries(
-      entries.map((e) => [e.name, { f: e.isFile(), d: e.isDirectory(), m: e.mtimeMs !== undefined }])
+      entries.map((e) => [
+        e.name,
+        { f: e.isFile(), d: e.isDirectory(), m: e.mtimeMs !== undefined },
+      ])
     );
     expect(byName).toEqual({
       'link.jsonl': { f: false, d: false, m: true },

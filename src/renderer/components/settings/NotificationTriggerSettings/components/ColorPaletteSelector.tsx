@@ -10,6 +10,7 @@ import { useCallback, useState } from 'react';
 
 import {
   isPresetColorKey,
+  isValidHexColor,
   resolveColorHex,
   TRIGGER_COLORS,
   type TriggerColor,
@@ -20,8 +21,6 @@ interface ColorPaletteSelectorProps {
   onChange: (color: TriggerColor) => void;
   disabled?: boolean;
 }
-
-const HEX_RE = /^#[0-9a-fA-F]{3,8}$/;
 
 export const ColorPaletteSelector = ({
   value,
@@ -40,7 +39,7 @@ export const ColorPaletteSelector = ({
 
   // Commit hex value on blur or Enter
   const commitHex = useCallback(() => {
-    if (hexInput && HEX_RE.test(hexInput)) {
+    if (hexInput && isValidHexColor(hexInput)) {
       onChange(hexInput as `#${string}`);
     }
   }, [hexInput, onChange]);
@@ -65,14 +64,14 @@ export const ColorPaletteSelector = ({
 
   const handleCustomClick = useCallback(() => {
     setShowHexInput(true);
-    if (hexInput && HEX_RE.test(hexInput)) {
+    if (hexInput && isValidHexColor(hexInput)) {
       onChange(hexInput as `#${string}`);
     }
   }, [hexInput, onChange]);
 
   // Preview swatch shows live hex input (local state) when typing, otherwise the committed value
   const previewHex =
-    showHexInput && hexInput && HEX_RE.test(hexInput) ? hexInput : resolveColorHex(value);
+    showHexInput && hexInput && isValidHexColor(hexInput) ? hexInput : resolveColorHex(value);
 
   return (
     <div className={`space-y-2 ${disabled ? 'pointer-events-none opacity-50' : ''}`}>
@@ -131,10 +130,10 @@ export const ColorPaletteSelector = ({
             maxLength={9}
             disabled={disabled}
             className={`w-24 rounded border bg-transparent px-2 py-1 font-mono text-xs text-text placeholder:text-text-muted focus:border-transparent focus:outline-none focus:ring-1 focus:ring-indigo-500 ${
-              hexInput && !HEX_RE.test(hexInput) ? 'border-red-500' : 'border-border'
+              hexInput && !isValidHexColor(hexInput) ? 'border-red-500' : 'border-border'
             }`}
           />
-          {hexInput && !HEX_RE.test(hexInput) && (
+          {hexInput && !isValidHexColor(hexInput) && (
             <span className="text-xs text-red-400">Invalid hex</span>
           )}
         </div>
