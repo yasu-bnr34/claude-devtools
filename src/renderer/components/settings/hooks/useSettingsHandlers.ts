@@ -3,7 +3,7 @@
  * Groups handlers by section for better organization.
  */
 
-import { useCallback, useRef } from 'react';
+import { useCallback, useLayoutEffect, useRef } from 'react';
 
 import { api } from '@renderer/api';
 import { useStore } from '@renderer/store';
@@ -63,8 +63,11 @@ export function useSettingsHandlers({
   updateConfig,
 }: UseSettingsHandlersProps): SettingsHandlers {
   // Use ref for config to avoid recreating callbacks when config changes
+  // Updated synchronously at commit, before any event/async handler can read it
   const configRef = useRef(config);
-  configRef.current = config;
+  useLayoutEffect(() => {
+    configRef.current = config;
+  }, [config]);
 
   // General handlers
   const handleGeneralToggle = useCallback(
