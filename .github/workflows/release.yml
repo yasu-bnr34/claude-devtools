@@ -58,6 +58,15 @@ jobs:
     runs-on: macos-14   # arm64 runner; macOS supports x64 cross-build natively
 
     steps:
+      - name: Require v* tag ref (refuse to publish package.json default version)
+        # Publishing jobs must run on a v* tag. On any other ref the "Set version from tag"
+        # step is skipped, so electron-builder would publish package.json's default version.
+        if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
+        shell: bash
+        run: |
+          echo "::error::Release publishing requires a v* tag ref (got: $GITHUB_REF). Push a v* tag, or run workflow_dispatch with 'Use workflow from' set to a v* tag."
+          exit 1
+
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -171,6 +180,15 @@ jobs:
     runs-on: windows-latest
 
     steps:
+      - name: Require v* tag ref (refuse to publish package.json default version)
+        # Publishing jobs must run on a v* tag. On any other ref the "Set version from tag"
+        # step is skipped, so electron-builder would publish package.json's default version.
+        if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
+        shell: bash
+        run: |
+          echo "::error::Release publishing requires a v* tag ref (got: $GITHUB_REF). Push a v* tag, or run workflow_dispatch with 'Use workflow from' set to a v* tag."
+          exit 1
+
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -223,6 +241,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Require v* tag ref (refuse to publish package.json default version)
+        # Publishing jobs must run on a v* tag. On any other ref the "Set version from tag"
+        # step is skipped, so electron-builder would publish package.json's default version.
+        if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
+        shell: bash
+        run: |
+          echo "::error::Release publishing requires a v* tag ref (got: $GITHUB_REF). Push a v* tag, or run workflow_dispatch with 'Use workflow from' set to a v* tag."
+          exit 1
+
       - name: Checkout
         uses: actions/checkout@v4
 
