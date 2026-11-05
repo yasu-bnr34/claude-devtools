@@ -237,3 +237,40 @@ Branch: `deps/update-20261105`（base: `origin/main` 92beeab）
 ### 注意
 
 - `pnpm check` はアプリの起動を含まない。electron 45.2.3・mermaid 12.3 は GUI での起動・図の描画確認を推奨。
+
+## typescript 6.0 追補（2026-11-05）
+
+Branch: `deps/typescript6-20261105`（base: `origin/main` 45566f8）
+
+### 結論
+
+typescript 5.9.3 → 6.0.3 に **更新した**。TS 7 へ進む前の中間段階で、6.0 で非推奨になった設定を先に解消しておくのが目的。
+
+版指定は `~6.0.3` にした。typescript-eslint 8.72.1（latest）の peer は `typescript >=4.8.4 <6.1.0` なので、`^6.0.3` だと 6.1 に上がったときに対応範囲から外れる。
+
+### 変更
+
+| ファイル | 変更 | 理由 |
+|---|---|---|
+| `tsconfig.json`、`tsconfig.node.json` | `"baseUrl": "."` を削除 | TS 6.0 では非推奨となり、TS5101 エラーで型チェックが止まる（7.0 で削除）。`paths` の値はすでに `./` で始まっているため、削除だけで済む。`baseUrl` によって `src/...` のような裸のパスを解決している import は 0 件（`src`・`test` を grep で確認） |
+| `test/renderer/utils/stringUtils.test.ts` | `getRandomValues` モックの戻り値の `as Uint8Array` を削除 | TS 6.0 の DOM 型定義で `getRandomValues` の型が `ArrayBufferView<ArrayBuffer>` に厳しくなり、TS2345 が出た。テストの型付けだけの修正で、実行時の挙動は変わらない |
+| `CLAUDE.md` | Tech Stack を TypeScript 6.x に更新 | — |
+
+TS 6.0 の既定値変更（`types: []`、`strict: true`、`module: esnext`、`noUncheckedSideEffectImports: true`、`rootDir` 等）は影響しなかった。各 tsconfig が該当する値を明示しているか、`noEmit` で出力しないため。
+
+### 検証
+
+| 項目 | ベースライン（main 45566f8、TS 5.9.3） | 本ブランチ（TS 6.0.3） |
+|---|---|---|
+| `pnpm check` | exit 0 | exit 0 |
+| テスト | 959 passed / 72 files | 959 passed / 72 files（変化なし） |
+| lint | 0 errors / 10 warnings | 0 errors / 10 warnings（変化なし）。typescript-eslint の「未対応バージョン」警告も出ない |
+| `tsc -p tsconfig.node.json`（check 対象外） | 既存エラー 2 件 | 同じ 2 件 |
+| `tsc -p tsconfig.test.json`（check 対象外） | 既存エラー 14 件 | 同じ 14 件（TS 6 で増えた 1 件は上記の修正で解消） |
+| ビルド成果物（`out/`・`dist-electron/` の 96 ファイル） | — | ベースラインとバイト単位で同一 |
+| `tsx` によるパスエイリアス解決（`@shared/*`・`@main/*`） | 解決できる | 解決できる（`baseUrl` なしでも可） |
+
+### 残っている点
+
+- `typescript@5.9.3` は lockfile に残っている。electron-builder 25 の依存（`app-builder-lib` → `config-file-ts`）が通常の依存として持っているためで、このプロジェクトのツールは使っていない。
+- **TS 7 の阻害要因は変わっていない。** typescript-eslint の peer が `<6.1.0` のままで、7.0 には従来の JS API が無い。typescript-eslint が TS 7 に対応した時点で再検討する。
