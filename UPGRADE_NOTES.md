@@ -218,7 +218,7 @@ electron-builder 25.1.8 → 26.18.1 に **更新した**。変更は `package.js
 | `resources/app-update.yml` | 25 と 26 で同一（provider github / releaseType draft） |
 | `app.asar.unpacked` | 25 と 26 で同一 |
 | asar 内の node_modules | パッケージ数 272 → 312。増えた 40 件はすべて `@types/*`（mermaid・react-markdown などの依存）。ほかに d3-shape・cose-base/layout-base・fast-uri・commander などで入れ子の配置が変わった。app.asar は 241,287,570 → 241,380,462 bytes（+92,892）。main・preload のバンドルが実行時に `require` する外部モジュールは `electron` だけ（残っている他の `require()` 文字列はコード生成用とコメント）なので、node_modules の差は実行時に影響しない |
-| `electron-builder --linux`（AppImage / deb / rpm / pacman、26.18.1） | AppImage・deb・rpm は成功。pacman は確認中 |
+| `electron-builder --linux`（AppImage / deb / rpm / pacman、26.18.1） | 4 形式とも成功。pacman は xz 圧縮に約 5 分かかり、`bsdtar -tf` で展開を検証済み |
 | deb の postinst | `resources/afterInstall.sh` の `${productFilename}` を `claude-devtools` に置き換えた内容で、想定どおり |
 
 検証時の注意点:
