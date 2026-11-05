@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
+import { Readable } from 'stream';
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 
 import {
@@ -102,14 +103,29 @@ describe('extractCwd', () => {
     expect(await extractCwd(file)).toBe('D:/work/repo');
   });
 
-  it('logs an error and returns null when a line before any cwd is malformed JSON', async () => {
+  it('skips malformed JSON lines and keeps scanning for cwd', async () => {
     const file = writeJsonl(['{not json', { type: 'user', cwd: '/after' }]);
 
-    expect(await extractCwd(file)).toBeNull();
+    expect(await extractCwd(file)).toBe('/after');
+    expect(console.error).not.toHaveBeenCalled();
+  });
+
+  it('logs an error and returns null when the stream fails', async () => {
+    const provider = {
+      exists: vi.fn().mockResolvedValue(true),
+      createReadStream: () =>
+        new Readable({
+          read() {
+            this.destroy(new Error('read failed'));
+          },
+        }),
+    } as unknown as FileSystemProvider;
+
+    expect(await extractCwd('/broken.jsonl', provider)).toBeNull();
     const errorMock = vi.mocked(console.error);
     expect(errorMock).toHaveBeenCalledTimes(1);
     expect(errorMock.mock.calls[0][0]).toBe('[Util:metadataExtraction]');
-    expect(errorMock.mock.calls[0][1]).toBe(`Error extracting cwd from ${file}:`);
+    expect(errorMock.mock.calls[0][1]).toBe('Error extracting cwd from /broken.jsonl:');
     errorMock.mockClear(); // expected error; keep test/setup.ts assertion clean
   });
 });

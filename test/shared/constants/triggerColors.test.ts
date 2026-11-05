@@ -97,13 +97,11 @@ describe('getHighlightProps', () => {
     });
   });
 
-  it('uses the inline-style path with red hex for empty or unknown color (observed)', () => {
-    const expected = {
-      className: 'ring-2',
-      style: { boxShadow: '0 0 0 2px #ef44444D', backgroundColor: '#ef44440D' },
-    };
+  it('falls back to the red preset class for empty, unknown or invalid hex color', () => {
+    const expected = { className: HIGHLIGHT_CLASSES.red };
     expect(getHighlightProps('' as TriggerColor)).toEqual(expected);
     expect(getHighlightProps('magenta' as TriggerColor)).toEqual(expected);
+    expect(getHighlightProps('#ggg')).toEqual(expected);
   });
 });
 
@@ -125,10 +123,10 @@ describe('getToolHighlightProps', () => {
     });
   });
 
-  it('uses the inline-style path with red hex for an unknown color (observed)', () => {
-    expect(getToolHighlightProps('magenta' as TriggerColor)).toEqual({
-      className: 'ring-2 animate-pulse',
-      style: { boxShadow: '0 0 0 2px #ef4444', backgroundColor: '#ef44441A' },
-    });
+  it('falls back to the red preset class for empty, unknown or invalid hex color', () => {
+    const expected = { className: TOOL_HIGHLIGHT_CLASSES.red };
+    expect(getToolHighlightProps('' as TriggerColor)).toEqual(expected);
+    expect(getToolHighlightProps('magenta' as TriggerColor)).toEqual(expected);
+    expect(getToolHighlightProps('#ggg')).toEqual(expected);
   });
 });
