@@ -123,7 +123,7 @@ export const UpdateDialog = (): React.JSX.Element | null => {
         {/* Close button */}
         <button
           onClick={dismissUpdateDialog}
-          className="absolute right-3 top-3 rounded p-1 transition-colors hover:bg-white/10"
+          className="absolute top-3 right-3 rounded-sm p-1 transition-colors hover:bg-white/10"
           style={{ color: 'var(--color-text-muted)' }}
         >
           <X className="size-4" />
@@ -143,7 +143,7 @@ export const UpdateDialog = (): React.JSX.Element | null => {
         {/* Release notes — normalize HTML then render as markdown */}
         {releaseNotes && (
           <div
-            className="prose prose-sm mb-4 max-h-48 overflow-y-auto rounded border p-2 text-xs"
+            className="prose prose-sm mb-4 max-h-48 overflow-y-auto rounded-sm border p-2 text-xs"
             style={{
               backgroundColor: 'var(--color-surface)',
               borderColor: 'var(--color-border)',

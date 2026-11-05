@@ -50,7 +50,7 @@ export const CollapsibleSection = ({
             {title}
           </span>
           <span
-            className="rounded px-1.5 py-0.5 text-xs"
+            className="rounded-sm px-1.5 py-0.5 text-xs"
             style={{
               backgroundColor: 'var(--color-surface-overlay)',
               color: 'var(--color-text-secondary)',

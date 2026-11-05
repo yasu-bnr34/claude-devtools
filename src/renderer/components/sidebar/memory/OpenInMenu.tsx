@@ -160,7 +160,7 @@ export const OpenInMenu = ({
         }}
       >
         <Folder size={14} className="text-text-secondary" aria-hidden="true" />
-        <span className="max-w-[180px] truncate">{label}</span>
+        <span className="max-w-45 truncate">{label}</span>
         <ChevronDown size={12} className="text-text-muted" aria-hidden="true" />
       </button>
     );
@@ -173,7 +173,7 @@ export const OpenInMenu = ({
           e.stopPropagation();
           setOpen((v) => !v);
         }}
-        className="rounded px-1.5 py-0.5 text-xs text-text-muted hover:bg-surface-overlay"
+        className="rounded-sm px-1.5 py-0.5 text-xs text-text-muted hover:bg-surface-overlay"
       >
         ⋯
       </button>
@@ -186,7 +186,7 @@ export const OpenInMenu = ({
       {open && (
         <div
           role="menu"
-          className="absolute right-0 z-50 mt-1 min-w-[220px] overflow-hidden rounded-md border shadow-lg"
+          className="absolute right-0 z-50 mt-1 min-w-55 overflow-hidden rounded-md border shadow-lg"
           style={{
             backgroundColor: 'var(--color-surface-overlay)',
             borderColor: 'var(--color-border-emphasis)',
@@ -215,7 +215,7 @@ export const OpenInMenu = ({
                   )}
                   <span className="flex-1">{labelOverride ?? target.label}</span>
                   {hint && (
-                    <span className="text-[10px] uppercase tracking-wider text-text-muted">
+                    <span className="text-[10px] tracking-wider text-text-muted uppercase">
                       {hint}
                     </span>
                   )}

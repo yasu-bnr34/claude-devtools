@@ -48,7 +48,7 @@ export const FrontmatterCard = ({ frontmatter }: FrontmatterCardProps): React.JS
         >
           {metadataEntries.map(([key, value]) => (
             <span key={key} className="inline-flex items-baseline gap-1">
-              <span className="text-[10px] uppercase tracking-wider text-text-muted">{key}</span>
+              <span className="text-[10px] tracking-wider text-text-muted uppercase">{key}</span>
               <span className="font-mono text-[11px] text-text-secondary">{value}</span>
             </span>
           ))}

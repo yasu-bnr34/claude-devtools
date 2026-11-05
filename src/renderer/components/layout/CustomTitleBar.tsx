@@ -41,7 +41,7 @@ export const CustomTitleBar = (): React.JSX.Element | null => {
   };
 
   const buttonBase =
-    'flex h-full w-12 items-center justify-center transition-colors border-0 outline-none';
+    'flex h-full w-12 items-center justify-center transition-colors border-0 outline-hidden';
   const buttonHover = 'hover:bg-white/10';
 
   const titleBarStyle = {
@@ -52,10 +52,10 @@ export const CustomTitleBar = (): React.JSX.Element | null => {
   } as React.CSSProperties;
 
   return (
-    <div className="flex shrink-0 select-none items-stretch" style={titleBarStyle}>
+    <div className="flex shrink-0 items-stretch select-none" style={titleBarStyle}>
       {/* Draggable area — app icon */}
       <div className="flex flex-1 items-center pl-3" style={{ minWidth: 0 }}>
-        <img src={faviconUrl} alt="" className="size-5 shrink-0 rounded-sm" draggable={false} />
+        <img src={faviconUrl} alt="" className="size-5 shrink-0 rounded-xs" draggable={false} />
       </div>
 
       {/* Window controls — no-drag so they receive clicks */}

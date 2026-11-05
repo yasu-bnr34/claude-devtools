@@ -310,7 +310,7 @@ export const MemoryView = ({ projectId }: MemoryViewProps): React.JSX.Element =>
           borderColor: 'var(--color-border)',
         }}
       >
-        <div className="px-3 pb-1 pt-3 text-[11px] font-semibold uppercase tracking-wider text-text-muted">
+        <div className="px-3 pt-3 pb-1 text-[11px] font-semibold tracking-wider text-text-muted uppercase">
           Layers {rows.length > 0 && <span>({rows.length})</span>}
         </div>
         <div className="flex-1 overflow-y-auto pb-2">
@@ -341,7 +341,7 @@ export const MemoryView = ({ projectId }: MemoryViewProps): React.JSX.Element =>
                   <span className="line-clamp-2 text-[11px] text-text-muted">{row.hook}</span>
                 )}
                 {row.kind === 'orphan' && (
-                  <span className="text-[10px] uppercase tracking-wider text-text-muted">
+                  <span className="text-[10px] tracking-wider text-text-muted uppercase">
                     Unlinked
                   </span>
                 )}

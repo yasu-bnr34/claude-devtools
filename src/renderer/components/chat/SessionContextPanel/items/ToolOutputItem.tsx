@@ -69,7 +69,7 @@ export const ToolOutputItem = ({
         ~{formatTokens(injection.estimatedTokens)} tokens
       </span>
       <span
-        className="rounded px-1 py-0.5 text-xs"
+        className="rounded-sm px-1 py-0.5 text-xs"
         style={{
           backgroundColor: 'var(--color-surface-overlay)',
           color: COLOR_TEXT_MUTED,
@@ -81,7 +81,7 @@ export const ToolOutputItem = ({
   );
 
   return (
-    <div className="rounded px-2 py-1.5">
+    <div className="rounded-sm px-2 py-1.5">
       {hasBreakdown ? (
         <button
           type="button"
@@ -102,7 +102,7 @@ export const ToolOutputItem = ({
       )}
 
       {expanded && hasBreakdown && (
-        <div className="ml-6 mt-1 space-y-0.5">
+        <div className="mt-1 ml-6 space-y-0.5">
           {injection.toolBreakdown.map((tool, idx) => (
             <ToolBreakdownItem key={`${tool.toolName}-${idx}`} tool={tool} />
           ))}

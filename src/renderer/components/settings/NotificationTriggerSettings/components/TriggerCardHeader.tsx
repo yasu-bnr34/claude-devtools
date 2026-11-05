@@ -58,7 +58,7 @@ export const TriggerCardHeader = ({
                 }
               }}
               autoFocus
-              className="w-full rounded border border-border bg-transparent px-2 py-1 text-sm text-text focus:outline-none focus:ring-1 focus:ring-indigo-500"
+              className="w-full rounded-sm border border-border bg-transparent px-2 py-1 text-sm text-text focus:ring-1 focus:ring-indigo-500 focus:outline-hidden"
             />
           ) : (
             <div className="flex items-center gap-2">
@@ -68,7 +68,7 @@ export const TriggerCardHeader = ({
               />
               <span className="truncate text-sm font-medium text-text">{trigger.name}</span>
               {trigger.isBuiltin && (
-                <span className="flex items-center gap-1 rounded bg-indigo-500/10 px-1.5 py-0.5 text-[10px] text-indigo-400">
+                <span className="flex items-center gap-1 rounded-sm bg-indigo-500/10 px-1.5 py-0.5 text-[10px] text-indigo-400">
                   <Shield className="size-2.5" />
                   Builtin
                 </span>
@@ -77,7 +77,7 @@ export const TriggerCardHeader = ({
                 <button
                   onClick={() => onSetEditingName(true)}
                   disabled={saving}
-                  className="rounded p-0.5 text-text-muted transition-colors hover:bg-surface-raised hover:text-text-secondary"
+                  className="rounded-sm p-0.5 text-text-muted transition-colors hover:bg-surface-raised hover:text-text-secondary"
                   aria-label="Edit name"
                 >
                   <Pencil className="size-3" />
@@ -103,7 +103,7 @@ export const TriggerCardHeader = ({
 
         <button
           onClick={onToggleExpanded}
-          className="rounded p-1 text-text-muted transition-colors hover:bg-surface-raised hover:text-text-secondary"
+          className="rounded-sm p-1 text-text-muted transition-colors hover:bg-surface-raised hover:text-text-secondary"
           aria-label={isExpanded ? 'Collapse' : 'Expand'}
         >
           {isExpanded ? <ChevronUp className="size-4" /> : <ChevronDown className="size-4" />}
@@ -113,7 +113,7 @@ export const TriggerCardHeader = ({
           <button
             onClick={onRemove}
             disabled={saving}
-            className={`rounded p-1 text-text-muted transition-colors hover:bg-red-500/10 hover:text-red-400 ${saving ? 'cursor-not-allowed opacity-50' : ''} `}
+            className={`rounded-sm p-1 text-text-muted transition-colors hover:bg-red-500/10 hover:text-red-400 ${saving ? 'cursor-not-allowed opacity-50' : ''} `}
             aria-label="Delete trigger"
           >
             <X className="size-4" />

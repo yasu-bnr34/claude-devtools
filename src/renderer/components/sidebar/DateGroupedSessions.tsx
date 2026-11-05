@@ -318,15 +318,15 @@ export const DateGroupedSessions = (): React.JSX.Element => {
           {widths.map((w, i) => (
             <div key={i} className="space-y-2">
               <div
-                className="skeleton-shimmer h-3 rounded-sm"
+                className="skeleton-shimmer h-3 rounded-xs"
                 style={{ backgroundColor: 'var(--skeleton-base-dim)', width: w.header }}
               />
               <div
-                className="skeleton-shimmer h-4 rounded-sm"
+                className="skeleton-shimmer h-4 rounded-xs"
                 style={{ backgroundColor: 'var(--skeleton-base)', width: w.title }}
               />
               <div
-                className="skeleton-shimmer h-3 rounded-sm"
+                className="skeleton-shimmer h-3 rounded-xs"
                 style={{ backgroundColor: 'var(--skeleton-base-dim)', width: w.sub }}
               />
             </div>
@@ -415,7 +415,7 @@ export const DateGroupedSessions = (): React.JSX.Element => {
           {/* Multi-select toggle */}
           <button
             onClick={toggleSidebarMultiSelect}
-            className="rounded p-1 transition-colors hover:bg-white/5"
+            className="rounded-sm p-1 transition-colors hover:bg-white/5"
             title={sidebarMultiSelectActive ? 'Exit selection mode' : 'Select sessions'}
             style={{
               color: sidebarMultiSelectActive ? '#818cf8' : 'var(--color-text-muted)',
@@ -427,7 +427,7 @@ export const DateGroupedSessions = (): React.JSX.Element => {
           {hasHiddenSessions && (
             <button
               onClick={toggleShowHiddenSessions}
-              className="rounded p-1 transition-colors hover:bg-white/5"
+              className="rounded-sm p-1 transition-colors hover:bg-white/5"
               title={showHiddenSessions ? 'Hide hidden sessions' : 'Show hidden sessions'}
               style={{
                 color: showHiddenSessions ? '#818cf8' : 'var(--color-text-muted)',
@@ -441,7 +441,7 @@ export const DateGroupedSessions = (): React.JSX.Element => {
             onClick={() =>
               setSessionSortMode(sessionSortMode === 'recent' ? 'most-context' : 'recent')
             }
-            className="rounded p-1 transition-colors hover:bg-white/5"
+            className="rounded-sm p-1 transition-colors hover:bg-white/5"
             title={sessionSortMode === 'recent' ? 'Sort by context consumption' : 'Sort by recent'}
             style={{
               color: sessionSortMode === 'most-context' ? '#818cf8' : 'var(--color-text-muted)',
@@ -470,7 +470,7 @@ export const DateGroupedSessions = (): React.JSX.Element => {
           <div className="ml-auto flex items-center gap-1">
             <button
               onClick={handleBulkPin}
-              className="rounded px-1.5 py-0.5 text-[10px] font-medium transition-colors hover:bg-white/5"
+              className="rounded-sm px-1.5 py-0.5 text-[10px] font-medium transition-colors hover:bg-white/5"
               style={{ color: 'var(--color-text-secondary)' }}
               title="Pin selected sessions"
             >
@@ -478,7 +478,7 @@ export const DateGroupedSessions = (): React.JSX.Element => {
             </button>
             <button
               onClick={handleBulkHide}
-              className="rounded px-1.5 py-0.5 text-[10px] font-medium transition-colors hover:bg-white/5"
+              className="rounded-sm px-1.5 py-0.5 text-[10px] font-medium transition-colors hover:bg-white/5"
               style={{ color: 'var(--color-text-secondary)' }}
               title="Hide selected sessions"
             >
@@ -487,7 +487,7 @@ export const DateGroupedSessions = (): React.JSX.Element => {
             {showHiddenSessions && someSelectedAreHidden && (
               <button
                 onClick={handleBulkUnhide}
-                className="rounded px-1.5 py-0.5 text-[10px] font-medium transition-colors hover:bg-white/5"
+                className="rounded-sm px-1.5 py-0.5 text-[10px] font-medium transition-colors hover:bg-white/5"
                 style={{ color: 'var(--color-text-secondary)' }}
                 title="Unhide selected sessions"
               >
@@ -496,7 +496,7 @@ export const DateGroupedSessions = (): React.JSX.Element => {
             )}
             <button
               onClick={clearSidebarSelection}
-              className="rounded p-0.5 transition-colors hover:bg-white/5"
+              className="rounded-sm p-0.5 transition-colors hover:bg-white/5"
               style={{ color: 'var(--color-text-muted)' }}
               title="Cancel selection"
             >

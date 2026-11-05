@@ -89,7 +89,7 @@ export const CompactBoundary = ({
 
         {/* Label */}
         <span
-          className="shrink-0 whitespace-nowrap text-sm font-medium transition-colors"
+          className="shrink-0 text-sm font-medium whitespace-nowrap transition-colors"
           style={{ color: TOOL_CALL_TEXT }}
         >
           Compacted
@@ -113,7 +113,7 @@ export const CompactBoundary = ({
         {/* Phase badge */}
         {compactGroup.startingPhaseNumber && (
           <span
-            className="shrink-0 whitespace-nowrap rounded px-1.5 py-0.5 text-[10px]"
+            className="shrink-0 rounded-sm px-1.5 py-0.5 text-[10px] whitespace-nowrap"
             style={{ backgroundColor: 'rgba(99, 102, 241, 0.15)', color: '#818cf8' }}
           >
             Phase {compactGroup.startingPhaseNumber}
@@ -122,7 +122,7 @@ export const CompactBoundary = ({
 
         {/* Timestamp */}
         <span
-          className="ml-auto shrink-0 whitespace-nowrap text-xs transition-colors"
+          className="ml-auto shrink-0 text-xs whitespace-nowrap transition-colors"
           style={{ color: COLOR_TEXT_MUTED }}
         >
           {format(timestamp, 'h:mm:ss a')}

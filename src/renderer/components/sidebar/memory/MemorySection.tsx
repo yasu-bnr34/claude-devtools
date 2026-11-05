@@ -52,7 +52,7 @@ export const MemorySection = (): React.JSX.Element | null => {
 
   return (
     <div
-      className="flex w-full items-center gap-1 border-b px-3 py-2 text-[11px] font-semibold uppercase tracking-wider text-text-muted"
+      className="flex w-full items-center gap-1 border-b px-3 py-2 text-[11px] font-semibold tracking-wider text-text-muted uppercase"
       style={{ borderColor: 'var(--color-border)' }}
     >
       <button

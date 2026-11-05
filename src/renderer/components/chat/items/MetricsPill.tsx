@@ -130,7 +130,7 @@ export const MetricsPill = ({
       <div
         ref={containerRef}
         role="tooltip"
-        className="inline-flex cursor-default items-center gap-1 rounded px-1.5 py-0.5 font-mono text-[11px]"
+        className="inline-flex cursor-default items-center gap-1 rounded-sm px-1.5 py-0.5 font-mono text-[11px]"
         style={{
           backgroundColor: TAG_BG,
           border: `1px solid ${TAG_BORDER}`,

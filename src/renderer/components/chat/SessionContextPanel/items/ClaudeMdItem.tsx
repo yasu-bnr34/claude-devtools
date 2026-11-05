@@ -29,7 +29,7 @@ export const ClaudeMdItem = ({
   const absolutePath = resolveAbsolutePath(injection.path, projectRoot);
 
   return (
-    <div className="rounded px-2 py-1">
+    <div className="rounded-sm px-2 py-1">
       <CopyablePath
         displayText={displayPath}
         copyText={absolutePath}

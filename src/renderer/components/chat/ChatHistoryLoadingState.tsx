@@ -20,7 +20,7 @@ export const ChatHistoryLoadingState = (): React.JSX.Element => {
                 {row.user.map((width, j) => (
                   <div
                     key={j}
-                    className="skeleton-shimmer ml-auto h-3 rounded-sm"
+                    className="skeleton-shimmer ml-auto h-3 rounded-xs"
                     style={{ width, backgroundColor: 'var(--skeleton-base)' }}
                   />
                 ))}
@@ -31,7 +31,7 @@ export const ChatHistoryLoadingState = (): React.JSX.Element => {
               {row.ai.map((width, j) => (
                 <div
                   key={j}
-                  className="skeleton-shimmer h-3 rounded-sm"
+                  className="skeleton-shimmer h-3 rounded-xs"
                   style={{ width, backgroundColor: 'var(--skeleton-base)' }}
                 />
               ))}

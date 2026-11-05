@@ -54,7 +54,7 @@ export const SessionContextHeader = ({
             Visible Context
           </h2>
           <span
-            className="rounded px-1.5 py-0.5 text-xs"
+            className="rounded-sm px-1.5 py-0.5 text-xs"
             style={{
               backgroundColor: COLOR_SURFACE_OVERLAY,
               color: COLOR_TEXT_SECONDARY,
@@ -68,7 +68,7 @@ export const SessionContextHeader = ({
           {onClose && (
             <button
               onClick={onClose}
-              className="rounded p-1 transition-colors hover:bg-white/10"
+              className="rounded-sm p-1 transition-colors hover:bg-white/10"
               style={{ color: COLOR_TEXT_SECONDARY }}
               aria-label="Close panel"
             >
@@ -104,7 +104,7 @@ export const SessionContextHeader = ({
         {/* Percentage of total */}
         {totalSessionTokens !== undefined && totalSessionTokens > 0 && (
           <span
-            className="rounded px-1.5 py-0.5 tabular-nums"
+            className="rounded-sm px-1.5 py-0.5 tabular-nums"
             style={{
               backgroundColor: COLOR_SURFACE_OVERLAY,
               color: COLOR_TEXT_MUTED,
@@ -130,7 +130,7 @@ export const SessionContextHeader = ({
               onClick={() =>
                 onPhaseChange(phase.phaseNumber === selectedPhase ? null : phase.phaseNumber)
               }
-              className="rounded px-1.5 py-0.5 text-[10px] transition-colors"
+              className="rounded-sm px-1.5 py-0.5 text-[10px] transition-colors"
               style={{
                 backgroundColor:
                   selectedPhase === phase.phaseNumber
@@ -144,7 +144,7 @@ export const SessionContextHeader = ({
           ))}
           <button
             onClick={() => onPhaseChange(null)}
-            className="rounded px-1.5 py-0.5 text-[10px] transition-colors"
+            className="rounded-sm px-1.5 py-0.5 text-[10px] transition-colors"
             style={{
               backgroundColor:
                 selectedPhase === null ? 'rgba(99, 102, 241, 0.2)' : COLOR_SURFACE_OVERLAY,
@@ -166,7 +166,7 @@ export const SessionContextHeader = ({
         </span>
         <button
           onClick={() => onViewModeChange('category')}
-          className="flex items-center gap-1 rounded px-1.5 py-0.5 text-[10px] transition-colors"
+          className="flex items-center gap-1 rounded-sm px-1.5 py-0.5 text-[10px] transition-colors"
           style={{
             backgroundColor:
               viewMode === 'category' ? 'rgba(99, 102, 241, 0.2)' : COLOR_SURFACE_OVERLAY,
@@ -178,7 +178,7 @@ export const SessionContextHeader = ({
         </button>
         <button
           onClick={() => onViewModeChange('ranked')}
-          className="flex items-center gap-1 rounded px-1.5 py-0.5 text-[10px] transition-colors"
+          className="flex items-center gap-1 rounded-sm px-1.5 py-0.5 text-[10px] transition-colors"
           style={{
             backgroundColor:
               viewMode === 'ranked' ? 'rgba(99, 102, 241, 0.2)' : COLOR_SURFACE_OVERLAY,

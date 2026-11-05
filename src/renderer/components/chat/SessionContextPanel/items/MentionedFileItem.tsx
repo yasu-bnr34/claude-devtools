@@ -29,7 +29,7 @@ export const MentionedFileItem = ({
   const absolutePath = resolveAbsolutePath(injection.path, projectRoot);
 
   return (
-    <div className="rounded px-2 py-1.5">
+    <div className="rounded-sm px-2 py-1.5">
       <div className="flex items-center gap-1.5">
         <File size={12} style={{ color: 'var(--color-text-muted)', flexShrink: 0 }} />
         <CopyablePath
@@ -40,7 +40,7 @@ export const MentionedFileItem = ({
         />
         {!injection.exists && (
           <span
-            className="rounded px-1 py-0.5 text-xs"
+            className="rounded-sm px-1 py-0.5 text-xs"
             style={{
               backgroundColor: 'var(--color-error-subtle)',
               color: 'var(--color-error)',
@@ -50,7 +50,7 @@ export const MentionedFileItem = ({
           </span>
         )}
       </div>
-      <div className="ml-4 mt-0.5 flex items-center gap-2">
+      <div className="mt-0.5 ml-4 flex items-center gap-2">
         <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>
           ~{formatTokens(injection.estimatedTokens)} tokens
         </span>

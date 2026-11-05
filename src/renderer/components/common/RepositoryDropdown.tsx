@@ -111,7 +111,7 @@ export const RepositoryDropdown = ({
         type="button"
         onClick={() => !disabled && !isEmpty && setIsOpen(!isOpen)}
         disabled={disabled || isEmpty}
-        className={`flex w-full items-center justify-between gap-2 rounded border border-border bg-transparent px-2 py-1.5 text-xs text-text-secondary transition-colors hover:bg-surface-raised ${disabled || isEmpty ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'} `}
+        className={`flex w-full items-center justify-between gap-2 rounded-sm border border-border bg-transparent px-2 py-1.5 text-xs text-text-secondary transition-colors hover:bg-surface-raised ${disabled || isEmpty ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'} `}
       >
         <span className="flex items-center gap-2">
           <FolderOpen className="size-3" />
@@ -125,7 +125,7 @@ export const RepositoryDropdown = ({
       {/* Dropdown Menu */}
       {isOpen && !isEmpty && (
         <div
-          className={`absolute inset-x-0 z-50 max-h-64 overflow-y-auto rounded border border-border bg-surface-overlay py-1 shadow-lg ${dropUp ? 'bottom-full mb-1' : 'top-full mt-1'} `}
+          className={`absolute inset-x-0 z-50 max-h-64 overflow-y-auto rounded-sm border border-border bg-surface-overlay py-1 shadow-lg ${dropUp ? 'bottom-full mb-1' : 'top-full mt-1'} `}
         >
           {availableItems.map((item) => (
             <RepositoryDropdownItemComponent
@@ -161,7 +161,7 @@ const RepositoryDropdownItemComponentInner = ({
         <div className="flex items-center gap-1.5">
           <span className="truncate text-xs text-text">{item.name}</span>
           {item.worktreeCount > 1 && (
-            <span className="flex shrink-0 items-center gap-0.5 rounded bg-surface-raised px-1 py-0.5 text-[10px] text-text-muted">
+            <span className="flex shrink-0 items-center gap-0.5 rounded-sm bg-surface-raised px-1 py-0.5 text-[10px] text-text-muted">
               <GitBranch className="size-2.5" />
               {item.worktreeCount}
             </span>
@@ -197,7 +197,7 @@ const SelectedRepositoryItemInner = ({
         <div className="flex items-center gap-1.5">
           <span className="truncate text-xs text-text">{item.name}</span>
           {item.worktreeCount > 1 && (
-            <span className="flex shrink-0 items-center gap-0.5 rounded bg-surface-raised px-1 py-0.5 text-[10px] text-text-muted">
+            <span className="flex shrink-0 items-center gap-0.5 rounded-sm bg-surface-raised px-1 py-0.5 text-[10px] text-text-muted">
               <GitBranch className="size-2.5" />
               {item.worktreeCount}
             </span>
@@ -211,7 +211,7 @@ const SelectedRepositoryItemInner = ({
         type="button"
         onClick={onRemove}
         disabled={disabled}
-        className={`shrink-0 rounded p-1 text-text-muted transition-colors hover:bg-red-500/10 hover:text-red-400 ${disabled ? 'cursor-not-allowed opacity-50' : ''} `}
+        className={`shrink-0 rounded-sm p-1 text-text-muted transition-colors hover:bg-red-500/10 hover:text-red-400 ${disabled ? 'cursor-not-allowed opacity-50' : ''} `}
         aria-label="Remove repository"
       >
         <svg className="size-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">

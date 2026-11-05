@@ -77,7 +77,7 @@ export class ErrorBoundary extends Component<Props, State> {
                   <summary className="cursor-pointer text-xs text-claude-dark-text-secondary hover:text-claude-dark-text">
                     Component Stack
                   </summary>
-                  <pre className="mt-2 whitespace-pre-wrap text-xs text-claude-dark-text-secondary">
+                  <pre className="mt-2 text-xs whitespace-pre-wrap text-claude-dark-text-secondary">
                     {errorInfo.componentStack}
                   </pre>
                 </details>

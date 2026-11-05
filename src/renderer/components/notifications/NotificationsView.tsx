@@ -269,7 +269,7 @@ export const NotificationsView = (): React.JSX.Element => {
       {/* Filter Chip Bar */}
       {filterChips.length > 1 && (
         <div
-          className="scrollbar-none shrink-0 overflow-x-auto border-b"
+          className="shrink-0 scrollbar-none overflow-x-auto border-b"
           style={{ borderColor: 'var(--color-border-subtle)' }}
         >
           <div className="flex items-center gap-1.5 px-4 py-2">

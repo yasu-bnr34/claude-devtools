@@ -99,7 +99,7 @@ export const MermaidViewer: React.FC<MermaidViewerProps> = ({ code }) => {
 
   return (
     <div
-      className="group relative overflow-hidden rounded-lg shadow-sm"
+      className="group relative overflow-hidden rounded-lg shadow-xs"
       style={{
         backgroundColor: CODE_BG,
         border: `1px solid ${CODE_BORDER}`,
@@ -117,7 +117,7 @@ export const MermaidViewer: React.FC<MermaidViewerProps> = ({ code }) => {
         <span className="flex-1" />
         <button
           onClick={() => setShowCode(!showCode)}
-          className="flex items-center gap-1 rounded px-1.5 py-0.5 text-xs transition-colors hover:bg-white/10"
+          className="flex items-center gap-1 rounded-sm px-1.5 py-0.5 text-xs transition-colors hover:bg-white/10"
           style={{ color: COLOR_TEXT_MUTED }}
           title={showCode ? 'Show diagram' : 'Show code'}
         >
@@ -141,13 +141,13 @@ export const MermaidViewer: React.FC<MermaidViewerProps> = ({ code }) => {
       ) : error ? (
         <div className="p-3">
           <div
-            className="mb-2 rounded px-2 py-1 text-xs"
+            className="mb-2 rounded-sm px-2 py-1 text-xs"
             style={{ backgroundColor: 'rgba(239, 68, 68, 0.1)', color: '#ef4444' }}
           >
             {error}
           </div>
           <pre
-            className="overflow-x-auto rounded p-2 text-xs leading-relaxed"
+            className="overflow-x-auto rounded-sm p-2 text-xs leading-relaxed"
             style={{
               backgroundColor: PROSE_PRE_BG,
               border: `1px solid ${PROSE_PRE_BORDER}`,

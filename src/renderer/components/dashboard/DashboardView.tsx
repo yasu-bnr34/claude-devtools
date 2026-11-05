@@ -56,7 +56,7 @@ const CommandSearch = ({ value, onChange }: Readonly<CommandSearchProps>): React
     <div className="relative mx-auto w-full max-w-xl">
       {/* Search container with glow effect on focus */}
       <div
-        className={`relative flex items-center gap-3 rounded-sm border bg-surface-raised px-4 py-3 transition-all duration-200 ${
+        className={`relative flex items-center gap-3 rounded-xs border bg-surface-raised px-4 py-3 transition-all duration-200 ${
           isFocused
             ? 'border-zinc-500 shadow-[0_0_20px_rgba(255,255,255,0.04)] ring-1 ring-zinc-600/30'
             : 'border-border hover:border-zinc-600'
@@ -68,7 +68,7 @@ const CommandSearch = ({ value, onChange }: Readonly<CommandSearchProps>): React
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder="Search projects..."
-          className="flex-1 bg-transparent text-sm text-text outline-none placeholder:text-text-muted"
+          className="flex-1 bg-transparent text-sm text-text outline-hidden placeholder:text-text-muted"
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
         />
@@ -78,10 +78,10 @@ const CommandSearch = ({ value, onChange }: Readonly<CommandSearchProps>): React
           className="flex shrink-0 items-center gap-1 transition-opacity hover:opacity-80"
           title={selectedProjectId ? `Search in sessions (${formatShortcut('K')})` : `Search projects (${formatShortcut('K')})`}
         >
-          <kbd className="flex h-5 items-center justify-center rounded border border-border bg-surface-overlay px-1.5 text-[10px] font-medium text-text-muted">
+          <kbd className="flex h-5 items-center justify-center rounded-sm border border-border bg-surface-overlay px-1.5 text-[10px] font-medium text-text-muted">
             <Command className="size-2.5" />
           </kbd>
-          <kbd className="flex size-5 items-center justify-center rounded border border-border bg-surface-overlay text-[10px] font-medium text-text-muted">
+          <kbd className="flex size-5 items-center justify-center rounded-sm border border-border bg-surface-overlay text-[10px] font-medium text-text-muted">
             K
           </kbd>
         </button>
@@ -156,14 +156,14 @@ const RepositoryCard = ({
   return (
     <button
       onClick={onClick}
-      className={`group relative flex min-h-[120px] flex-col overflow-hidden rounded-sm border p-4 text-left transition-all duration-300 ${
+      className={`group relative flex min-h-30 flex-col overflow-hidden rounded-xs border p-4 text-left transition-all duration-300 ${
         isHighlighted
           ? 'border-border-emphasis bg-surface-raised'
-          : 'bg-surface/50 border-border hover:border-border-emphasis hover:bg-surface-raised'
+          : 'border-border hover:border-border-emphasis hover:bg-surface-raised'
       } `}
     >
       {/* Icon with subtle border */}
-      <div className="mb-3 flex size-8 items-center justify-center rounded-sm border border-border bg-surface-overlay transition-colors duration-300 group-hover:border-border-emphasis">
+      <div className="mb-3 flex size-8 items-center justify-center rounded-xs border border-border bg-surface-overlay transition-colors duration-300 group-hover:border-border-emphasis">
         <FolderGit2 className="size-4 text-text-secondary transition-colors group-hover:text-text" />
       </div>
 
@@ -234,11 +234,11 @@ const NewProjectCard = (): React.JSX.Element => {
 
   return (
     <button
-      className="hover:bg-surface/30 group relative flex min-h-[120px] flex-col items-center justify-center rounded-sm border border-dashed border-border bg-transparent p-4 transition-all duration-300 hover:border-border-emphasis"
+      className="group relative flex min-h-30 flex-col items-center justify-center rounded-xs border border-dashed border-border bg-transparent p-4 transition-all duration-300 hover:border-border-emphasis"
       onClick={handleClick}
       title="Select a project folder"
     >
-      <div className="mb-2 flex size-8 items-center justify-center rounded-sm border border-dashed border-border transition-colors duration-300 group-hover:border-border-emphasis">
+      <div className="mb-2 flex size-8 items-center justify-center rounded-xs border border-dashed border-border transition-colors duration-300 group-hover:border-border-emphasis">
         <FolderOpen className="size-4 text-text-muted transition-colors group-hover:text-text-secondary" />
       </div>
       <span className="text-xs text-text-muted transition-colors group-hover:text-text-secondary">
@@ -306,7 +306,7 @@ const ProjectsGrid = ({
         {Array.from({ length: 8 }).map((_, i) => (
           <div
             key={i}
-            className="skeleton-card flex min-h-[120px] flex-col rounded-sm border border-border p-4"
+            className="skeleton-card flex min-h-30 flex-col rounded-xs border border-border p-4"
             style={{
               animationDelay: `${i * 80}ms`,
               backgroundColor: 'var(--skeleton-base)',
@@ -314,12 +314,12 @@ const ProjectsGrid = ({
           >
             {/* Icon placeholder */}
             <div
-              className="mb-3 size-8 rounded-sm"
+              className="mb-3 size-8 rounded-xs"
               style={{ backgroundColor: 'var(--skeleton-base-light)' }}
             />
             {/* Title placeholder */}
             <div
-              className="mb-2 h-3.5 rounded-sm"
+              className="mb-2 h-3.5 rounded-xs"
               style={{
                 width: `${titleWidths[i]}%`,
                 backgroundColor: 'var(--skeleton-base-light)',
@@ -327,7 +327,7 @@ const ProjectsGrid = ({
             />
             {/* Path placeholder */}
             <div
-              className="mb-auto h-2.5 rounded-sm"
+              className="mb-auto h-2.5 rounded-xs"
               style={{
                 width: `${pathWidths[i]}%`,
                 backgroundColor: 'var(--skeleton-base-dim)',
@@ -336,11 +336,11 @@ const ProjectsGrid = ({
             {/* Meta row placeholder */}
             <div className="mt-3 flex gap-2">
               <div
-                className="h-2.5 w-16 rounded-sm"
+                className="h-2.5 w-16 rounded-xs"
                 style={{ backgroundColor: 'var(--skeleton-base-dim)' }}
               />
               <div
-                className="h-2.5 w-12 rounded-sm"
+                className="h-2.5 w-12 rounded-xs"
                 style={{ backgroundColor: 'var(--skeleton-base-dim)' }}
               />
             </div>
@@ -352,8 +352,8 @@ const ProjectsGrid = ({
 
   if (filteredRepos.length === 0 && searchQuery.trim()) {
     return (
-      <div className="flex flex-col items-center justify-center rounded-sm border border-dashed border-border px-8 py-16">
-        <div className="mb-4 flex size-12 items-center justify-center rounded-sm border border-border bg-surface-raised">
+      <div className="flex flex-col items-center justify-center rounded-xs border border-dashed border-border px-8 py-16">
+        <div className="mb-4 flex size-12 items-center justify-center rounded-xs border border-border bg-surface-raised">
           <Search className="size-6 text-text-muted" />
         </div>
         <p className="mb-1 text-sm text-text-secondary">No projects found</p>
@@ -364,8 +364,8 @@ const ProjectsGrid = ({
 
   if (repositoryGroups.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center rounded-sm border border-dashed border-border px-8 py-16">
-        <div className="mb-4 flex size-12 items-center justify-center rounded-sm border border-border bg-surface-raised">
+      <div className="flex flex-col items-center justify-center rounded-xs border border-dashed border-border px-8 py-16">
+        <div className="mb-4 flex size-12 items-center justify-center rounded-xs border border-border bg-surface-raised">
           <FolderGit2 className="size-6 text-text-muted" />
         </div>
         <p className="mb-1 text-sm text-text-secondary">No projects found</p>
@@ -401,7 +401,7 @@ export const DashboardView = (): React.JSX.Element => {
     <div className="relative flex-1 overflow-auto bg-surface">
       {/* Spotlight gradient background */}
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-[600px] bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(99,102,241,0.08),transparent)]"
+        className="pointer-events-none absolute inset-x-0 top-0 h-150 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(99,102,241,0.08),transparent)]"
         aria-hidden="true"
       />
 

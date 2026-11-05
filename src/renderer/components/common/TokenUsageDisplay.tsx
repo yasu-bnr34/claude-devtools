@@ -117,7 +117,7 @@ const SessionContextSection = ({
       <div
         role="button"
         tabIndex={0}
-        className="-mx-1 flex cursor-pointer items-center justify-between gap-3 rounded px-1 py-0.5 transition-colors hover:bg-white/5"
+        className="-mx-1 flex cursor-pointer items-center justify-between gap-3 rounded-sm px-1 py-0.5 transition-colors hover:bg-white/5"
         onClick={() => setExpanded(!expanded)}
         onKeyDown={(e) => {
           if (e.key === 'Enter' || e.key === ' ') {
@@ -130,10 +130,10 @@ const SessionContextSection = ({
           <ChevronRight
             className={`size-3 shrink-0 transition-transform duration-150 ${expanded ? 'rotate-90' : ''}`}
           />
-          <span className="whitespace-nowrap text-[10px]">Visible Context</span>
+          <span className="text-[10px] whitespace-nowrap">Visible Context</span>
         </div>
         <span
-          className="whitespace-nowrap text-[10px] tabular-nums"
+          className="text-[10px] whitespace-nowrap tabular-nums"
           style={{ color: COLOR_TEXT_MUTED }}
         >
           {formatTokens(adjustedContextTotal)} ({contextPercent}%)
@@ -378,7 +378,7 @@ export const TokenUsageDisplay = ({
       <span className="font-medium">{formattedTotal}</span>
       {totalPhases && totalPhases > 1 && phaseNumber && (
         <span
-          className="rounded px-1 py-0.5 text-[10px]"
+          className="rounded-sm px-1 py-0.5 text-[10px]"
           style={{ backgroundColor: 'rgba(99, 102, 241, 0.15)', color: '#818cf8' }}
         >
           Phase {phaseNumber}/{totalPhases}

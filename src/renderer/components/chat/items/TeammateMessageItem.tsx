@@ -194,7 +194,7 @@ export const TeammateMessageItem: React.FC<TeammateMessageItemProps> = ({
 
         {/* Teammate name badge */}
         <span
-          className="rounded px-1.5 py-0.5 text-[10px] font-medium tracking-wide"
+          className="rounded-sm px-1.5 py-0.5 text-[10px] font-medium tracking-wide"
           style={{
             backgroundColor: colors.badge,
             color: colors.text,
@@ -205,7 +205,7 @@ export const TeammateMessageItem: React.FC<TeammateMessageItemProps> = ({
         </span>
 
         {/* "Message" type label — parallels SubagentItem's model info */}
-        <span className="text-[10px] uppercase tracking-wide" style={{ color: CARD_ICON_MUTED }}>
+        <span className="text-[10px] tracking-wide uppercase" style={{ color: CARD_ICON_MUTED }}>
           Message
         </span>
 

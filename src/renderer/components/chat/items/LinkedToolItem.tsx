@@ -87,7 +87,7 @@ export const LinkedToolItem: React.FC<LinkedToolItemProps> = React.memo(function
       <div ref={handleRef} className="flex items-center gap-2 px-3 py-1.5">
         <span className="size-2.5 rounded-full" style={{ backgroundColor: colors.border }} />
         <span
-          className="rounded px-1.5 py-0.5 text-[10px] font-medium"
+          className="rounded-sm px-1.5 py-0.5 text-[10px] font-medium"
           style={{ backgroundColor: colors.badge, color: colors.text }}
         >
           {name}

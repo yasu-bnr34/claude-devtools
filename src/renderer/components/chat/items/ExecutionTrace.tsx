@@ -230,7 +230,7 @@ export const ExecutionTrace: React.FC<ExecutionTraceProps> = React.memo(function
                     </span>
                   )}
                   <span
-                    className="shrink-0 rounded px-1.5 py-0.5 text-[10px]"
+                    className="shrink-0 rounded-sm px-1.5 py-0.5 text-[10px]"
                     style={{
                       backgroundColor: 'rgba(99, 102, 241, 0.15)',
                       color: '#818cf8',

@@ -104,7 +104,7 @@ export const NotificationRow = ({
           </span>
           {error.subagentId && (
             <span
-              className="inline-flex shrink-0 items-center gap-1 rounded px-1.5 py-0.5 text-[10px] font-medium"
+              className="inline-flex shrink-0 items-center gap-1 rounded-sm px-1.5 py-0.5 text-[10px] font-medium"
               style={{
                 backgroundColor: 'var(--tag-bg)',
                 border: '1px solid var(--tag-border)',
@@ -133,7 +133,7 @@ export const NotificationRow = ({
           />
         ) : (
           <span
-            className="whitespace-nowrap text-[11px]"
+            className="text-[11px] whitespace-nowrap"
             style={{ color: 'var(--color-text-muted)' }}
           >
             {relativeTime}
@@ -180,7 +180,7 @@ const HoverActions = ({
           onClick={onArchiveClick}
           onMouseEnter={() => setHoveredButton('archive')}
           onMouseLeave={() => setHoveredButton(null)}
-          className="rounded p-1.5 transition-colors"
+          className="rounded-sm p-1.5 transition-colors"
           style={getButtonStyle('archive')}
           title="Mark as read"
         >
@@ -192,7 +192,7 @@ const HoverActions = ({
         onClick={onDeleteClick}
         onMouseEnter={() => setHoveredButton('delete')}
         onMouseLeave={() => setHoveredButton(null)}
-        className="rounded p-1.5 transition-colors"
+        className="rounded-sm p-1.5 transition-colors"
         style={getButtonStyle('delete', true)}
         title="Delete"
       >
@@ -203,7 +203,7 @@ const HoverActions = ({
         onClick={onNavigateClick}
         onMouseEnter={() => setHoveredButton('navigate')}
         onMouseLeave={() => setHoveredButton(null)}
-        className="rounded p-1.5 transition-colors"
+        className="rounded-sm p-1.5 transition-colors"
         style={getButtonStyle('navigate')}
         title="View in session"
       >

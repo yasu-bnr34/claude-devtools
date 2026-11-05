@@ -65,7 +65,7 @@ const SessionIdMatchItemInner = ({
   <button
     onClick={onClick}
     className={`w-full px-4 py-3 text-left transition-colors ${
-      isSelected ? 'bg-surface-raised' : 'hover:bg-surface-raised/50'
+      isSelected ? 'bg-surface-raised' : ''
     }`}
   >
     <div className="flex items-start gap-3">
@@ -89,7 +89,7 @@ const SessionIdMatchItemInner = ({
               : 'Unknown'}
           </span>
         </div>
-        <div className="text-text-muted/60 mt-1 font-mono text-[10px]">{sessionId}</div>
+        <div className="mt-1 font-mono text-[10px]">{sessionId}</div>
       </div>
     </div>
   </button>
@@ -120,7 +120,7 @@ const ProjectResultItemInner = ({
     <button
       onClick={onClick}
       className={`w-full px-4 py-3 text-left transition-colors ${
-        isSelected ? 'bg-surface-raised' : 'hover:bg-surface-raised/50'
+        isSelected ? 'bg-surface-raised' : ''
       }`}
     >
       <div className="flex items-start gap-3">
@@ -170,7 +170,7 @@ const SessionResultItemInner = ({
     <button
       onClick={onClick}
       className={`w-full px-4 py-3 text-left transition-colors ${
-        isSelected ? 'bg-surface-raised' : 'hover:bg-surface-raised/50'
+        isSelected ? 'bg-surface-raised' : ''
       }`}
     >
       <div className="flex items-start gap-3">
@@ -198,7 +198,7 @@ const SessionResultItemInner = ({
           <div className="text-sm leading-relaxed text-text">
             {highlightMatch(result.context, result.matchedText)}
           </div>
-          <div className="text-text-muted/60 mt-1 text-xs">
+          <div className="mt-1 text-xs">
             {new Date(result.timestamp).toLocaleDateString()}{' '}
             {new Date(result.timestamp).toLocaleTimeString()}
           </div>
@@ -613,7 +613,7 @@ export const CommandPalette = (): React.JSX.Element | null => {
       <>
         <span>{before}</span>
         <mark
-          className="rounded px-0.5"
+          className="rounded-sm px-0.5"
           style={{
             backgroundColor: 'var(--highlight-bg)',
             color: 'var(--highlight-text)',
@@ -638,7 +638,7 @@ export const CommandPalette = (): React.JSX.Element | null => {
     >
       <div className="w-full max-w-2xl overflow-hidden rounded-xl border border-border bg-surface shadow-2xl">
         {/* Mode indicator */}
-        <div className="bg-surface-raised/50 border-b border-border px-4 py-2">
+        <div className="border-b border-border px-4 py-2">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
               {queryIsSessionId ? (
@@ -659,7 +659,7 @@ export const CommandPalette = (): React.JSX.Element | null => {
                   </span>
                   {!globalSearchEnabled && (
                     <>
-                      <span className="text-text-muted/50 mx-1 text-xs">&middot;</span>
+                      <span className="mx-1 text-xs">&middot;</span>
                       <span className="truncate text-xs text-text-secondary">
                         {selectedProjectName}
                       </span>
@@ -701,12 +701,12 @@ export const CommandPalette = (): React.JSX.Element | null => {
                 ? 'Search projects or paste session ID...'
                 : 'Search conversations or paste session ID...'
             }
-            className="placeholder:text-text-muted/50 flex-1 bg-transparent text-base text-text focus:outline-none"
+            className="flex-1 bg-transparent text-base text-text focus:outline-hidden"
           />
           {loading && <Loader2 className="size-4 animate-spin text-text-muted" />}
           <button
             onClick={closeCommandPalette}
-            className="rounded p-1 text-text-muted transition-colors hover:text-text"
+            className="rounded-sm p-1 text-text-muted transition-colors hover:text-text"
           >
             <X className="size-4" />
           </button>
@@ -824,21 +824,22 @@ export const CommandPalette = (): React.JSX.Element | null => {
           </span>
           <div className="flex items-center gap-4">
             <span>
-              <kbd className="rounded bg-surface-overlay px-1.5 py-0.5 text-[10px]">↑↓</kbd>{' '}
+              <kbd className="rounded-sm bg-surface-overlay px-1.5 py-0.5 text-[10px]">↑↓</kbd>{' '}
               navigate
             </span>
             <span>
-              <kbd className="rounded bg-surface-overlay px-1.5 py-0.5 text-[10px]">↵</kbd>{' '}
+              <kbd className="rounded-sm bg-surface-overlay px-1.5 py-0.5 text-[10px]">↵</kbd>{' '}
               {searchMode === 'projects' ? 'select' : 'open'}
             </span>
             <span>
-              <kbd className="rounded bg-surface-overlay px-1.5 py-0.5 text-[10px]">
+              <kbd className="rounded-sm bg-surface-overlay px-1.5 py-0.5 text-[10px]">
                 {formatModifierShortcut('G')}
               </kbd>{' '}
               global
             </span>
             <span>
-              <kbd className="rounded bg-surface-overlay px-1.5 py-0.5 text-[10px]">esc</kbd> close
+              <kbd className="rounded-sm bg-surface-overlay px-1.5 py-0.5 text-[10px]">esc</kbd>{' '}
+              close
             </span>
           </div>
         </div>

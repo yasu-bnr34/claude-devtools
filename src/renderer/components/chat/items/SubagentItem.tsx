@@ -231,7 +231,7 @@ export const SubagentItem: React.FC<SubagentItemProps> = ({
           style={{ backgroundColor: teamColors.border }}
         />
         <span
-          className="rounded px-1.5 py-0.5 text-[10px] font-medium tracking-wide"
+          className="rounded-sm px-1.5 py-0.5 text-[10px] font-medium tracking-wide"
           style={{
             backgroundColor: teamColors.badge,
             color: teamColors.text,
@@ -303,7 +303,7 @@ export const SubagentItem: React.FC<SubagentItemProps> = ({
         {/* Type badge - team member name or typed subagent */}
         {teamColors && subagent.team ? (
           <span
-            className="rounded px-1.5 py-0.5 text-[10px] font-medium tracking-wide"
+            className="rounded-sm px-1.5 py-0.5 text-[10px] font-medium tracking-wide"
             style={{
               backgroundColor: teamColors.badge,
               color: teamColors.text,
@@ -314,7 +314,7 @@ export const SubagentItem: React.FC<SubagentItemProps> = ({
           </span>
         ) : (
           <span
-            className="rounded px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide"
+            className="rounded-sm px-1.5 py-0.5 text-[10px] font-medium tracking-wide uppercase"
             style={{
               backgroundColor: typeColors!.badge,
               color: typeColors!.text,
@@ -401,7 +401,7 @@ export const SubagentItem: React.FC<SubagentItemProps> = ({
             <span>
               <span style={{ color: CARD_ICON_MUTED }}>ID</span>{' '}
               <span
-                className="inline-block max-w-[120px] truncate align-bottom font-mono"
+                className="inline-block max-w-30 truncate align-bottom font-mono"
                 style={{ color: CARD_ICON_MUTED }}
                 title={subagent.id}
               >
@@ -415,7 +415,7 @@ export const SubagentItem: React.FC<SubagentItemProps> = ({
             <div className="pt-2">
               {/* Overline title */}
               <div
-                className="mb-2 text-[10px] font-semibold uppercase tracking-wider"
+                className="mb-2 text-[10px] font-semibold tracking-wider uppercase"
                 style={{ color: CARD_ICON_MUTED }}
               >
                 Context Usage

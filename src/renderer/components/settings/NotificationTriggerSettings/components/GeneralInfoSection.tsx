@@ -40,7 +40,7 @@ export const GeneralInfoSection = ({
           placeholder="e.g., Build Failure Alert"
           disabled={saving}
           required
-          className={`w-full rounded border border-border bg-transparent px-2 py-1.5 text-sm text-text placeholder:text-text-muted focus:border-transparent focus:outline-none focus:ring-1 focus:ring-indigo-500 ${saving ? 'cursor-not-allowed opacity-50' : ''} `}
+          className={`w-full rounded-sm border border-border bg-transparent px-2 py-1.5 text-sm text-text placeholder:text-text-muted focus:border-transparent focus:ring-1 focus:ring-indigo-500 focus:outline-hidden ${saving ? 'cursor-not-allowed opacity-50' : ''} `}
         />
       </div>
 
@@ -54,7 +54,7 @@ export const GeneralInfoSection = ({
           value={toolName}
           onChange={(e) => onToolNameChange(e.target.value)}
           disabled={saving}
-          className={`rounded border border-border bg-transparent px-2 py-1 text-sm text-text focus:border-transparent focus:outline-none focus:ring-1 focus:ring-indigo-500 ${saving ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'} `}
+          className={`rounded-sm border border-border bg-transparent px-2 py-1 text-sm text-text focus:border-transparent focus:ring-1 focus:ring-indigo-500 focus:outline-hidden ${saving ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'} `}
         >
           {TOOL_NAME_OPTIONS.map((option) => (
             <option key={option.value} value={option.value} className="bg-[#141416]">
