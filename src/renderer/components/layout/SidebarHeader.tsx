@@ -329,7 +329,7 @@ export const SidebarHeader = (): React.JSX.Element => {
       {/* ROW 1: Project Identity (Title Bar / Drag Region) */}
       <div
         ref={projectDropdownRef}
-        className="relative flex select-none items-center gap-2 pr-2"
+        className="relative flex items-center gap-2 pr-2 select-none"
         style={
           {
             height: `${HEADER_ROW1_HEIGHT}px`,
@@ -392,7 +392,7 @@ export const SidebarHeader = (): React.JSX.Element => {
               }}
             >
               <div
-                className="px-3 py-2 text-[10px] font-semibold uppercase tracking-wider"
+                className="px-3 py-2 text-[10px] font-semibold tracking-wider uppercase"
                 style={{ color: 'var(--color-text-muted)' }}
               >
                 Switch {viewMode === 'grouped' ? 'Repository' : 'Project'}
@@ -485,7 +485,7 @@ export const SidebarHeader = (): React.JSX.Element => {
                 onClick={() => setIsWorktreeDropdownOpen(false)}
               />
               <div
-                className="absolute inset-x-0 top-full z-20 mt-0 max-h-[400px] overflow-y-auto py-1 shadow-xl"
+                className="absolute inset-x-0 top-full z-20 mt-0 max-h-100 overflow-y-auto py-1 shadow-xl"
                 style={{
                   backgroundColor: 'var(--color-surface-sidebar)',
                   borderWidth: '1px',
@@ -495,7 +495,7 @@ export const SidebarHeader = (): React.JSX.Element => {
                 }}
               >
                 <div
-                  className="px-4 py-2 text-[10px] font-semibold uppercase tracking-wider"
+                  className="px-4 py-2 text-[10px] font-semibold tracking-wider uppercase"
                   style={{ color: 'var(--color-text-muted)' }}
                 >
                   Switch Worktree
@@ -515,7 +515,7 @@ export const SidebarHeader = (): React.JSX.Element => {
                   <div key={group.source}>
                     {/* Group header */}
                     <div
-                      className="mt-1 px-4 py-1.5 text-[9px] font-medium uppercase tracking-wider"
+                      className="mt-1 px-4 py-1.5 text-[9px] font-medium tracking-wider uppercase"
                       style={{
                         borderTopWidth: '1px',
                         borderTopStyle: 'solid',

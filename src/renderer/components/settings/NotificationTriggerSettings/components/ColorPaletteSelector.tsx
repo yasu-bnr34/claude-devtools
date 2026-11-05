@@ -79,7 +79,7 @@ export const ColorPaletteSelector = ({
       <div className="flex items-center gap-2">
         {/* Live preview swatch */}
         <span
-          className="size-6 shrink-0 rounded border border-border-subtle"
+          className="size-6 shrink-0 rounded-sm border border-border-subtle"
           style={{ backgroundColor: previewHex }}
           title={value ?? 'red'}
         />
@@ -106,7 +106,7 @@ export const ColorPaletteSelector = ({
           title="Custom hex color"
           onClick={handleCustomClick}
           disabled={disabled}
-          className={`flex size-5 items-center justify-center rounded-full border text-[9px] font-bold leading-none transition-all ${
+          className={`flex size-5 items-center justify-center rounded-full border text-[9px] leading-none font-bold transition-all ${
             isCustom
               ? 'border-white/40 text-white ring-2 ring-white/60 ring-offset-1 ring-offset-surface'
               : 'border-border-emphasis text-text-muted hover:ring-1 hover:ring-white/30'
@@ -129,7 +129,7 @@ export const ColorPaletteSelector = ({
             placeholder="#ff6600"
             maxLength={9}
             disabled={disabled}
-            className={`w-24 rounded border bg-transparent px-2 py-1 font-mono text-xs text-text placeholder:text-text-muted focus:border-transparent focus:outline-none focus:ring-1 focus:ring-indigo-500 ${
+            className={`w-24 rounded border bg-transparent px-2 py-1 font-mono text-xs text-text placeholder:text-text-muted focus:border-transparent focus:ring-1 focus:ring-indigo-500 focus:outline-hidden ${
               hexInput && !isValidHexColor(hexInput) ? 'border-red-500' : 'border-border'
             }`}
           />

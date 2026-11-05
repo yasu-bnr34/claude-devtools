@@ -172,39 +172,42 @@ Custom scrollbar styling via `--scrollbar-thumb`, `--scrollbar-thumb-hover`, `--
 
 ## Tailwind Config
 
-`tailwind.config.js` maps CSS variables to Tailwind classes:
+Tailwind CSS v4 is configured in CSS (there is no `tailwind.config.js`). The `@theme` block at the top of `src/renderer/index.css` maps CSS variables to Tailwind classes:
 
-```javascript
-colors: {
-  surface: {
-    DEFAULT: 'var(--color-surface)',
-    raised: 'var(--color-surface-raised)',
-    overlay: 'var(--color-surface-overlay)',
-    sidebar: 'var(--color-surface-sidebar)',
-    code: 'var(--code-bg)',
-  },
-  border: {
-    DEFAULT: 'var(--color-border)',
-    subtle: 'var(--color-border-subtle)',
-    emphasis: 'var(--color-border-emphasis)',
-  },
-  text: {
-    DEFAULT: 'var(--color-text)',
-    secondary: 'var(--color-text-secondary)',
-    muted: 'var(--color-text-muted)',
-  },
-  semantic: {
-    success: '#22c55e',
-    error: '#ef4444',
-    warning: '#f59e0b',
-    info: '#3b82f6',
-  },
-  // Backward-compatible alias
-  'claude-dark': { bg: 'var(--color-surface)', surface: 'var(--color-surface-raised)', ... },
+```css
+@theme {
+  --color-surface: var(--color-surface);          /* bg-surface */
+  --color-surface-raised: var(--color-surface-raised);
+  --color-surface-overlay: var(--color-surface-overlay);
+  --color-surface-sidebar: var(--color-surface-sidebar);
+  --color-surface-code: var(--code-bg);
+
+  --color-border: var(--color-border);            /* border-border */
+  --color-border-subtle: var(--color-border-subtle);
+  --color-border-emphasis: var(--color-border-emphasis);
+
+  --color-text: var(--color-text);                /* text-text */
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-muted: var(--color-text-muted);
+
+  --color-semantic-success: #22c55e;
+  --color-semantic-error: #ef4444;
+  --color-semantic-warning: #f59e0b;
+  --color-semantic-info: #3b82f6;
+
+  /* Backward-compatible alias */
+  --color-claude-dark-bg: var(--color-surface);
+  /* ... */
 }
 ```
 
-Plugin: `@tailwindcss/typography` for markdown prose.
+The theme entries reuse the names of the variables defined in `:root` / `:root.light`. Those `:root` rules are unlayered, so their values win over the `@theme` output and the theme switch keeps working.
+
+Plugin: `@tailwindcss/typography` (loaded with `@plugin` in `index.css`) for markdown prose.
+
+v4 notes for this codebase:
+- Global CSS that targets elements (e.g. the `*` reset) must stay inside `@layer base`. Unlayered rules beat every Tailwind layer, so an unlayered reset overrides padding/margin utilities.
+- Opacity modifiers on the CSS-variable colors (e.g. `bg-surface-raised/50`) now take effect; in v3 they generated nothing.
 
 ## Icon Library
 

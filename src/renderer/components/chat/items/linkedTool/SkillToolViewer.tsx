@@ -37,7 +37,7 @@ export const SkillToolViewer: React.FC<SkillToolViewerProps> = ({ linkedTool }) 
             Result
           </div>
           <div
-            className="overflow-x-auto rounded p-3 font-mono text-xs"
+            className="overflow-x-auto rounded-sm p-3 font-mono text-xs"
             style={{
               backgroundColor: 'var(--code-bg)',
               border: '1px solid var(--code-border)',

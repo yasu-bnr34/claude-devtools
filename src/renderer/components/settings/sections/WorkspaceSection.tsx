@@ -24,7 +24,7 @@ import { SettingsSelect } from '../components/SettingsSelect';
 
 import type { SshAuthMethod, SshConnectionProfile } from '@shared/types';
 
-const inputClass = 'w-full rounded-md border px-3 py-1.5 text-sm focus:outline-none focus:ring-1';
+const inputClass = 'w-full rounded-md border px-3 py-1.5 text-sm focus:outline-hidden focus:ring-1';
 const inputStyle = {
   backgroundColor: 'var(--color-surface-raised)',
   borderColor: 'var(--color-border)',
@@ -366,7 +366,7 @@ export const WorkspaceSection = (): React.JSX.Element => {
                   </p>
                 </div>
                 <span
-                  className="shrink-0 rounded px-1.5 py-0.5 text-xs"
+                  className="shrink-0 rounded-sm px-1.5 py-0.5 text-xs"
                   style={{
                     backgroundColor: 'var(--color-surface)',
                     color: 'var(--color-text-muted)',
@@ -376,7 +376,7 @@ export const WorkspaceSection = (): React.JSX.Element => {
                 </span>
                 <button
                   onClick={() => setEditingId(profile.id)}
-                  className="shrink-0 rounded p-1 transition-colors hover:bg-surface-raised"
+                  className="shrink-0 rounded-sm p-1 transition-colors hover:bg-surface-raised"
                   style={{ color: 'var(--color-text-muted)' }}
                   title="Edit profile"
                 >
@@ -384,7 +384,7 @@ export const WorkspaceSection = (): React.JSX.Element => {
                 </button>
                 <button
                   onClick={() => void handleDelete(profile.id)}
-                  className="shrink-0 rounded p-1 transition-colors hover:bg-surface-raised"
+                  className="shrink-0 rounded-sm p-1 transition-colors hover:bg-surface-raised"
                   style={{ color: 'var(--color-text-muted)' }}
                   title="Delete profile"
                 >

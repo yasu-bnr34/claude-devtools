@@ -265,7 +265,7 @@ export const SessionContextPanel = ({
             <div className="flex items-center gap-1 pb-1">
               <button
                 onClick={() => setFlatMode(false)}
-                className="rounded px-1.5 py-0.5 text-[10px] transition-colors"
+                className="rounded-sm px-1.5 py-0.5 text-[10px] transition-colors"
                 style={{
                   backgroundColor: !flatMode ? 'rgba(99, 102, 241, 0.2)' : COLOR_SURFACE_OVERLAY,
                   color: !flatMode ? '#818cf8' : COLOR_TEXT_MUTED,
@@ -275,7 +275,7 @@ export const SessionContextPanel = ({
               </button>
               <button
                 onClick={() => setFlatMode(true)}
-                className="rounded px-1.5 py-0.5 text-[10px] transition-colors"
+                className="rounded-sm px-1.5 py-0.5 text-[10px] transition-colors"
                 style={{
                   backgroundColor: flatMode ? 'rgba(99, 102, 241, 0.2)' : COLOR_SURFACE_OVERLAY,
                   color: flatMode ? '#818cf8' : COLOR_TEXT_MUTED,

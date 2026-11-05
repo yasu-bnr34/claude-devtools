@@ -218,7 +218,7 @@ function createUserMarkdownComponents(
       // Inline code — no hl()
       return (
         <code
-          className="rounded px-1.5 py-0.5 font-mono text-xs"
+          className="rounded-sm px-1.5 py-0.5 font-mono text-xs"
           style={{
             backgroundColor: 'var(--chat-user-tag-bg)',
             color: 'var(--chat-user-tag-text)',
@@ -455,7 +455,7 @@ const UserChatGroupInner = ({ userGroup }: Readonly<UserChatGroupProps>): React.
         {/* Content - polished bubble with subtle depth */}
         {textContent && (
           <div
-            className="group relative overflow-hidden rounded-2xl rounded-br-sm px-4 py-3"
+            className="group relative overflow-hidden rounded-2xl rounded-br-xs px-4 py-3"
             style={{
               backgroundColor: 'var(--chat-user-bg)',
               border: '1px solid var(--chat-user-border)',

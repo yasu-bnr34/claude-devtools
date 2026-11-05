@@ -199,11 +199,11 @@ export const FlatInjectionList = ({
           <div key={row.key} className="flex items-center gap-0.5">
             <button
               onClick={handleClick}
-              className="flex min-w-0 flex-1 items-center gap-2 rounded px-2 py-1.5 text-left transition-colors hover:bg-white/5"
+              className="flex min-w-0 flex-1 items-center gap-2 rounded-sm px-2 py-1.5 text-left transition-colors hover:bg-white/5"
             >
               {/* Category pill */}
               <span
-                className="shrink-0 rounded px-1.5 py-0.5 text-[9px] font-medium"
+                className="shrink-0 rounded-sm px-1.5 py-0.5 text-[9px] font-medium"
                 style={{ backgroundColor: categoryInfo.bg, color: categoryInfo.text }}
               >
                 {categoryInfo.label}
@@ -218,7 +218,7 @@ export const FlatInjectionList = ({
               {/* Error badge */}
               {row.isError && (
                 <span
-                  className="shrink-0 rounded px-1 py-0.5"
+                  className="shrink-0 rounded-sm px-1 py-0.5"
                   style={{
                     backgroundColor: 'rgba(239, 68, 68, 0.15)',
                     color: '#ef4444',

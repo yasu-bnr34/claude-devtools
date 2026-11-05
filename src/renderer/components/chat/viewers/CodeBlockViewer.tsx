@@ -153,7 +153,7 @@ export const CodeBlockViewer: React.FC<CodeBlockViewerProps> = ({
 
   return (
     <div
-      className="overflow-hidden rounded-lg shadow-sm"
+      className="overflow-hidden rounded-lg shadow-xs"
       style={{
         backgroundColor: 'var(--code-bg)',
         border: '1px solid var(--code-border)',
@@ -182,7 +182,7 @@ export const CodeBlockViewer: React.FC<CodeBlockViewerProps> = ({
             </span>
           )}
           <span
-            className="shrink-0 rounded px-1.5 py-0.5 text-xs"
+            className="shrink-0 rounded-sm px-1.5 py-0.5 text-xs"
             style={{
               backgroundColor: 'var(--tag-bg)',
               color: 'var(--tag-text)',
@@ -196,7 +196,7 @@ export const CodeBlockViewer: React.FC<CodeBlockViewerProps> = ({
         {/* Copy button */}
         <button
           onClick={handleCopy}
-          className="rounded p-1 transition-colors hover:opacity-80"
+          className="rounded-sm p-1 transition-colors hover:opacity-80"
           title="Copy to clipboard"
           style={{ backgroundColor: 'transparent' }}
         >
@@ -215,10 +215,10 @@ export const CodeBlockViewer: React.FC<CodeBlockViewerProps> = ({
             {lines.map((line, index) => {
               const lineNumber = startLine + index;
               return (
-                <div key={index} className="flex hover:bg-[var(--color-surface-overlay)]">
+                <div key={index} className="flex hover:bg-surface-overlay">
                   {/* Line number */}
                   <span
-                    className="w-12 shrink-0 select-none px-3 py-0.5 text-right"
+                    className="w-12 shrink-0 px-3 py-0.5 text-right select-none"
                     style={{
                       color: 'var(--code-line-number)',
                       borderRight: '1px solid var(--code-border)',
@@ -228,7 +228,7 @@ export const CodeBlockViewer: React.FC<CodeBlockViewerProps> = ({
                   </span>
                   {/* Code line */}
                   <span
-                    className="flex-1 whitespace-pre px-4 py-0.5"
+                    className="flex-1 px-4 py-0.5 whitespace-pre"
                     style={{ color: 'var(--color-text)' }}
                   >
                     {highlightLine(line, detectedLanguage)}

@@ -42,11 +42,11 @@ const SystemChatGroupInner = ({
 
         {/* Content - theme-aware neutral styling */}
         <div
-          className="rounded-2xl rounded-bl-sm px-4 py-3"
+          className="rounded-2xl rounded-bl-xs px-4 py-3"
           style={{ backgroundColor: 'var(--chat-system-bg)' }}
         >
           <pre
-            className="whitespace-pre-wrap font-mono text-sm"
+            className="font-mono text-sm whitespace-pre-wrap"
             style={{ color: 'var(--chat-system-text)' }}
           >
             {cleanOutput}

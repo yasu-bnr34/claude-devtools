@@ -244,10 +244,10 @@ export default defineConfig([
         version: 'detect',
       },
       tailwindcss: {
-        // Tailwind config path (absolute; eslint-plugin-tailwindcss >=3.18.3 cannot resolve relative paths)
-        config: path.resolve(import.meta.dirname, 'tailwind.config.js'),
-        // Allow custom classnames (e.g., from CSS modules)
-        callees: ['classnames', 'clsx', 'cn'],
+        // Tailwind v4 CSS entry point (holds @theme); eslint-plugin-tailwindcss 4 requires a .css file
+        cssConfigPath: path.resolve(import.meta.dirname, 'src/renderer/index.css'),
+        // Functions whose arguments are checked as class lists
+        functions: ['classnames', 'clsx', 'cn'],
       },
     },
     rules: {
@@ -283,7 +283,11 @@ export default defineConfig([
       // Warn on conflicting classes
       'tailwindcss/no-contradicting-classname': 'error',
       // Warn on custom classnames that don't exist
-      'tailwindcss/no-custom-classname': 'warn',
+      // Classes defined in plain CSS in src/renderer/index.css (the v4 plugin only reads @theme/@utility)
+      'tailwindcss/no-custom-classname': [
+        'warn',
+        { whitelist: ['scrollbar-none', 'sidebar-header', 'skeleton-card', 'skeleton-shimmer'] },
+      ],
 
       // === React-Specific Rules ===
       // Consistent component definition

@@ -183,7 +183,8 @@ export const ConnectionSection = (): React.JSX.Element => {
   const isConnected = connectionState === 'connected';
   const resolvedClaudeRootPath = claudeRootInfo?.resolvedPath ?? '~/.claude';
 
-  const inputClass = 'w-full rounded-md border px-3 py-1.5 text-sm focus:outline-none focus:ring-1';
+  const inputClass =
+    'w-full rounded-md border px-3 py-1.5 text-sm focus:outline-hidden focus:ring-1';
   const inputStyle = {
     backgroundColor: 'var(--color-surface-raised)',
     borderColor: 'var(--color-border)',
@@ -230,7 +231,7 @@ export const ConnectionSection = (): React.JSX.Element => {
 
       {connectionError && (
         <div className="rounded-md border border-red-500/20 bg-red-500/10 px-4 py-3">
-          <pre className="whitespace-pre-wrap break-words font-sans text-sm text-red-400">
+          <pre className="font-sans text-sm wrap-break-word whitespace-pre-wrap text-red-400">
             {connectionError}
           </pre>
         </div>

@@ -78,7 +78,7 @@ export const NotificationTriggerSettings = ({
         )}
 
         {customTriggers.length === 0 && (
-          <p className="mb-4 text-sm italic text-text-muted">No custom triggers configured yet.</p>
+          <p className="mb-4 text-sm text-text-muted italic">No custom triggers configured yet.</p>
         )}
 
         <AddTriggerForm saving={saving} onAdd={onAddTrigger} />

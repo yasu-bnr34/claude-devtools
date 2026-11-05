@@ -39,7 +39,7 @@ export const CollapsibleOutputSection: React.FC<CollapsibleOutputSectionProps> =
       </button>
       {isExpanded && (
         <div
-          className="max-h-96 overflow-auto rounded p-3 font-mono text-xs"
+          className="max-h-96 overflow-auto rounded-sm p-3 font-mono text-xs"
           style={{
             backgroundColor: 'var(--code-bg)',
             border: '1px solid var(--code-border)',

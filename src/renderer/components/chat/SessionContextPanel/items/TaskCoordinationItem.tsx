@@ -67,7 +67,7 @@ export const TaskCoordinationItem = ({
         ~{formatTokens(injection.estimatedTokens)} tokens
       </span>
       <span
-        className="rounded px-1 py-0.5 text-xs"
+        className="rounded-sm px-1 py-0.5 text-xs"
         style={{
           backgroundColor: 'var(--color-surface-overlay)',
           color: COLOR_TEXT_MUTED,
@@ -79,7 +79,7 @@ export const TaskCoordinationItem = ({
   );
 
   return (
-    <div className="rounded px-2 py-1.5">
+    <div className="rounded-sm px-2 py-1.5">
       {hasBreakdown ? (
         <button
           type="button"
@@ -100,7 +100,7 @@ export const TaskCoordinationItem = ({
       )}
 
       {expanded && hasBreakdown && (
-        <div className="ml-6 mt-1 space-y-0.5">
+        <div className="mt-1 ml-6 space-y-0.5">
           {injection.breakdown.map((item, idx) => (
             <div key={`${item.label}-${idx}`} className="flex items-center justify-between text-xs">
               <span style={{ color: COLOR_TEXT_SECONDARY }}>{item.label}</span>

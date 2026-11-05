@@ -130,7 +130,7 @@ export const LastOutputDisplay = ({
           />
           {lastOutput.toolName && (
             <code
-              className="rounded px-1.5 py-0.5 text-xs"
+              className="rounded-sm px-1.5 py-0.5 text-xs"
               style={{
                 backgroundColor: 'var(--tag-bg)',
                 color: 'var(--tag-text)',
@@ -156,7 +156,7 @@ export const LastOutputDisplay = ({
         {/* Content */}
         <div className="px-4 py-3">
           <pre
-            className="max-h-96 overflow-y-auto whitespace-pre-wrap break-words font-mono text-sm"
+            className="max-h-96 overflow-y-auto font-mono text-sm wrap-break-word whitespace-pre-wrap"
             style={{ color: 'var(--color-text)' }}
           >
             {lastOutput.toolResult}

@@ -265,7 +265,7 @@ const DiffLineRow: React.FC<DiffLineRowProps> = ({ line }): React.JSX.Element =>
     >
       {/* Line number */}
       <span
-        className="w-10 shrink-0 select-none px-2 text-right"
+        className="w-10 shrink-0 px-2 text-right select-none"
         style={{ color: CODE_LINE_NUMBER }}
       >
         {line.lineNumber}
@@ -307,7 +307,7 @@ export const DiffViewer: React.FC<DiffViewerProps> = ({
 
   return (
     <div
-      className="overflow-hidden rounded-lg shadow-sm"
+      className="overflow-hidden rounded-lg shadow-xs"
       style={{
         backgroundColor: CODE_BG,
         border: `1px solid ${CODE_BORDER}`,
@@ -326,7 +326,7 @@ export const DiffViewer: React.FC<DiffViewerProps> = ({
           {displayName}
         </span>
         <span
-          className="shrink-0 rounded px-1.5 py-0.5 text-xs"
+          className="shrink-0 rounded-sm px-1.5 py-0.5 text-xs"
           style={{
             backgroundColor: TAG_BG,
             color: TAG_TEXT,

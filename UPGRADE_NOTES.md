@@ -194,6 +194,77 @@ eslint 9.39.5 → 10.x は **見送り**（依存は変更なし）。事前調�
 
 eslint-plugin-import・eslint-plugin-jsx-a11y・eslint-plugin-react が eslint 10 対応版を出し、かつ eslint-plugin-react-hooks 7.1.x の見送り分（前節の 7 件）が解消できること。代替プラグイン（eslint-plugin-import-x 等）への置き換えはルールの意味が変わりうるため今回の範囲外。
 
+## tailwindcss 4 追補（2026-11-05）
+
+Branch: `deps/tailwind4-20261105`（base: `origin/main` 1fc3bc7）
+
+### 結論
+
+tailwindcss 3.4.19 → 4.3.4 に **更新した**。公式の移行ツールで大半を移行し、ツールが扱わない差分を手で直した。更新前後で主要 10 画面（ライト/ダーク）のスクリーンショットを比べ、見た目が変わらないことを確認した。
+
+| パッケージ | 旧 → 新 |
+|---|---|
+| tailwindcss | 3.4.19 → 4.3.4 |
+| @tailwindcss/postcss | 追加（4.3.4） |
+| autoprefixer | 削除（v4 は vendor prefix を内蔵） |
+| eslint-plugin-tailwindcss | 3.18.3 → 4.4.0（3.x は v4 の設定を読めず lint が停止した） |
+| prettier-plugin-tailwindcss / @tailwindcss/typography | 0.8.1 / 0.5.20 のまま（v4 対応済み） |
+
+### 移行ツール（`pnpm dlx @tailwindcss/upgrade@4.3.4`）が行った変更
+
+- `tailwind.config.js` を削除し、色の定義を `src/renderer/index.css` の `@theme` へ移した。あわせて `@tailwind` 3 行を `@import 'tailwindcss'` に置き換え、typography を `@plugin` で読み込むようにした。
+- border の既定色を v3 と同じ gray-200 に保つ互換スタイル（`@layer base`）を追加した。
+- `postcss.config.cjs` を `@tailwindcss/postcss` に置き換えた。
+- 69 ファイルでクラス名を改名・正規化した。
+
+| 変更前 | 変更後 | 件数 |
+|---|---|---|
+| `rounded` | `rounded-sm` | 127 |
+| `rounded-sm` | `rounded-xs` | 22 |
+| `outline-none`（`focus:` 付き含む） | `outline-hidden` | 20 |
+| `shadow-sm` | `shadow-xs` | 4 |
+| `shadow` | `shadow-sm` | 1 |
+| `break-words` | `wrap-break-word` | 2 |
+| `z-[9999]` / `duration-[3000ms]` / `[var(--x)]` | 正規形 | 7 |
+
+### 手で直したもの（いずれもスクリーンショットまたは生成 CSS で確認）
+
+| 内容 | 箇所 | 理由 |
+|---|---|---|
+| `*` の margin/padding リセットを `@layer base` へ移動 | `src/renderer/index.css` | v4 はブラウザ標準のカスケードレイヤーを使うため、レイヤー外のリセットが全ユーティリティより優先された。全画面で padding/margin が消えたことをスクリーンショットで確認したうえで修正 |
+| `rounded-br-sm` / `rounded-bl-sm` → `-xs` | `UserChatGroup.tsx`、`SystemChatGroup.tsx` | ツールが辺指定の版を改名しなかった（v4 の `-sm` は 0.25rem で、v3 の `-sm` は 0.125rem） |
+| CSS 変数の色に付けた不透明度指定を削除（10 箇所） | `CommandPalette.tsx`（8）、`DashboardView.tsx`（2） | `bg-surface-raised/50`、`text-text-muted/60` など。v3 ではクラス自体が生成されていなかった（v3.4.19 の CLI で出力した CSS に存在しないことを確認）。v4 では有効になって見た目が変わるため削除した。意図した効果を出したい場合は、別途デザインとして再追加が必要 |
+| Preflight 互換スタイルを追加 | `index.css` | placeholder の色（v3 は gray-400）と、button の `cursor: pointer`。公式ガイドの互換スニペットどおり |
+| 行の高さを v3 の値で `@theme` に指定（`text-xs`〜`text-2xl`） | `index.css` | v4 は行の高さを比率（例 `calc(1 / 0.75)`）で定義しており、文字サイズの異なる子要素（`text-xs` 内の `text-[10px]` の kbd など）に比率のまま継承されて約 1px ずれた |
+| eslint-plugin-tailwindcss 4 の設定 | `eslint.config.js` | 次の3点を変更<br>・`config`（js）を `cssConfigPath`（`index.css`）に置き換え<br>・`callees` を `functions` に置き換え<br>・`no-custom-classname` に、`index.css` で定義している自前クラス4つを whitelist として追加（v3 版はプラグインが CSS ファイルから読み取っていた） |
+| 任意値を v4 の目盛り表記に変更（14 箇所） | 9 ファイル | 例: `min-h-[120px]` → `min-h-30`。`tailwindcss/no-unnecessary-arbitrary-value` の警告への対応。ルート文字サイズは 16px のまま変更していないので計算値は同じ |
+| prettier の設定 | `.prettierrc.json` | v4 に必要な `tailwindStylesheet` を追加 |
+| prettier の適用（52 ファイル） | — | v4 ではクラスの並び順の規則が変わり、main で整形済みだったファイルが不一致になったため。変更 75 箇所は、すべて同じ行内のクラスの並べ替えか改行位置の変更であることをスクリプトで確認した |
+| ドキュメント | `CLAUDE.md`、`.claude/commands/devtools/design-system.md` | Tailwind 4.x と `@theme` の記述に更新 |
+
+### 検証
+
+- **画面比較の方法:** standalone ビルドを `CLAUDE_ROOT` を固定データにして起動し、Playwright（Chromium 153、1440×900、時刻固定）で次の 10 画面をライト/ダークで撮影して、更新前後を比べた。
+  - ホーム、プロジェクト選択、セッション（下端・上端）、コマンドパレット、メニュー
+  - 設定（General / Notifications / Advanced）、AI 応答の展開
+- **画面比較の結果:**
+  - 20 枚とも、チャンネル差 16 を超える画素は 0。サイドバーのブランチ名の行は、チェックアウト中のブランチで変わるため除外した。
+  - しきい値 0 では 12 枚・計 8,293 画素に最大 9/255 の差がある。互換スタイルの gray-200 / gray-400 など、v4 の既定パレットが oklch で再定義されたことによる丸め差で、目視では判別できない。
+
+| 項目 | ベースライン（main 1fc3bc7） | 本ブランチ |
+|---|---|---|
+| `pnpm check` | exit 0 | exit 0 |
+| テスト | 955 passed / 72 files | 955 passed / 72 files（変化なし） |
+| lint | 0 errors / 10 warnings | 0 errors / 10 warnings（変化なし） |
+| `pnpm format:check`（check 対象外） | 29 files 不一致 | 29 files 不一致（同じ集合） |
+
+### 未検証（要確認）
+
+- Electron アプリとしての起動。今回の確認は standalone（ブラウザ）のみ。
+- 撮影していない画面。コンテキストパネル、通知パネル、更新ダイアログ（`prose`）、サブエージェント・diff・コードの各ビューアなど。
+- hover / focus などの状態と、カーソル形状。
+- v4 の `hover:` は `@media (hover: hover)` の環境でだけ効く。タッチ専用の端末では hover の見た目が出なくなる。
+
 ## electron-builder 26 追補（2026-11-05）
 
 Branch: `claude/gifted-knuth-c6fytr`（base: `origin/main` 1fc3bc7）

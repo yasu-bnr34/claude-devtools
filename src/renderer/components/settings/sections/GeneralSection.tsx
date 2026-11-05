@@ -557,7 +557,7 @@ export const GeneralSection = ({
                 Running on
               </span>
               <code
-                className="rounded px-1.5 py-0.5 font-mono text-xs"
+                className="rounded-sm px-1.5 py-0.5 font-mono text-xs"
                 style={{
                   backgroundColor: 'var(--color-surface)',
                   color: 'var(--color-text)',
@@ -592,7 +592,7 @@ export const GeneralSection = ({
               Running on
             </span>
             <code
-              className="rounded px-1.5 py-0.5 font-mono text-xs"
+              className="rounded-sm px-1.5 py-0.5 font-mono text-xs"
               style={{
                 backgroundColor: 'var(--color-surface)',
                 color: 'var(--color-text)',

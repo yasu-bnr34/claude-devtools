@@ -33,7 +33,7 @@ export const WriteToolViewer: React.FC<WriteToolViewerProps> = ({ linkedTool }) 
           <button
             type="button"
             onClick={() => setViewMode('code')}
-            className="rounded px-2 py-1 text-xs transition-colors"
+            className="rounded-sm px-2 py-1 text-xs transition-colors"
             style={{
               backgroundColor: viewMode === 'code' ? 'var(--tag-bg)' : 'transparent',
               color: viewMode === 'code' ? 'var(--tag-text)' : 'var(--color-text-muted)',
@@ -45,7 +45,7 @@ export const WriteToolViewer: React.FC<WriteToolViewerProps> = ({ linkedTool }) 
           <button
             type="button"
             onClick={() => setViewMode('preview')}
-            className="rounded px-2 py-1 text-xs transition-colors"
+            className="rounded-sm px-2 py-1 text-xs transition-colors"
             style={{
               backgroundColor: viewMode === 'preview' ? 'var(--tag-bg)' : 'transparent',
               color: viewMode === 'preview' ? 'var(--tag-text)' : 'var(--color-text-muted)',

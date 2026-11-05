@@ -147,7 +147,7 @@ export function createMarkdownComponents(searchCtx: SearchContext | null): Compo
       // Inline code — no hl(); parent block element's hl() descends here
       return (
         <code
-          className="rounded px-1.5 py-0.5 font-mono text-xs"
+          className="rounded-sm px-1.5 py-0.5 font-mono text-xs"
           style={{
             backgroundColor: 'var(--prose-code-bg)',
             color: 'var(--prose-code-text)',

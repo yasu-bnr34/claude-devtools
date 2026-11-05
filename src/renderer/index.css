@@ -1,6 +1,77 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@plugin '@tailwindcss/typography';
+
+@theme {
+  --color-surface: var(--color-surface);
+  --color-surface-raised: var(--color-surface-raised);
+  --color-surface-overlay: var(--color-surface-overlay);
+  --color-surface-sidebar: var(--color-surface-sidebar);
+  --color-surface-code: var(--code-bg);
+
+  --color-border: var(--color-border);
+  --color-border-subtle: var(--color-border-subtle);
+  --color-border-emphasis: var(--color-border-emphasis);
+
+  --color-text: var(--color-text);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-muted: var(--color-text-muted);
+
+  --color-semantic-success: #22c55e;
+  --color-semantic-error: #ef4444;
+  --color-semantic-warning: #f59e0b;
+  --color-semantic-info: #3b82f6;
+
+  --color-claude-dark-bg: var(--color-surface);
+  --color-claude-dark-surface: var(--color-surface-raised);
+  --color-claude-dark-border: var(--color-border);
+  --color-claude-dark-text: var(--color-text);
+  --color-claude-dark-text-secondary: var(--color-text-secondary);
+
+  /* Tailwind v3 line heights. v4 uses unitless ratios (e.g. calc(1 / 0.75)), which children
+     with a different font size (text-[10px] inside text-xs) inherit as a ratio and shift. */
+  --text-xs--line-height: 1rem;
+  --text-sm--line-height: 1.25rem;
+  --text-base--line-height: 1.5rem;
+  --text-lg--line-height: 1.75rem;
+  --text-xl--line-height: 1.75rem;
+  --text-2xl--line-height: 2rem;
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+/*
+  Tailwind CSS v3 Preflight compatibility (see the v4 upgrade guide, "Preflight changes"):
+  v3 gave placeholders `gray-400` and buttons `cursor: pointer`; v4 uses the current text
+  color at 50% opacity and the browser's default cursor.
+*/
+@layer base {
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-gray-400);
+  }
+
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+}
 
 /* Theme CSS Custom Properties */
 :root {
@@ -383,10 +454,14 @@
   --skeleton-base-dim: rgba(205, 208, 215, 0.6);
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* Must stay in the base layer: unlayered rules beat every Tailwind v4 layer, so an
+   unlayered `*` reset would override padding/margin utilities. */
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 }
 
 body {

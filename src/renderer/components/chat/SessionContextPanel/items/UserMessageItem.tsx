@@ -24,7 +24,7 @@ export const UserMessageItem = ({
   const isClickable = onNavigateToTurn && turnIndex >= 0;
 
   return (
-    <div className="rounded px-2 py-1.5">
+    <div className="rounded-sm px-2 py-1.5">
       <div className="flex w-full items-center gap-1.5">
         <MessageSquare size={12} style={{ color: COLOR_TEXT_MUTED, flexShrink: 0 }} />
         {isClickable ? (

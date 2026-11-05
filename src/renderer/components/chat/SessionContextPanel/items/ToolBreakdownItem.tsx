@@ -23,7 +23,7 @@ export const ToolBreakdownItem = ({
       </span>
       {tool.isError && (
         <span
-          className="rounded px-1 py-0.5"
+          className="rounded-sm px-1 py-0.5"
           style={{
             backgroundColor: 'var(--color-error-subtle)',
             color: 'var(--color-error)',

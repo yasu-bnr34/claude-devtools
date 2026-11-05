@@ -186,7 +186,7 @@ function createViewerMarkdownComponents(searchCtx: SearchContext | null): Compon
       // Inline code — no hl(); parent block element's hl() descends here
       return (
         <code
-          className="rounded px-1.5 py-0.5 font-mono text-xs"
+          className="rounded-sm px-1.5 py-0.5 font-mono text-xs"
           style={{
             backgroundColor: PROSE_CODE_BG,
             color: PROSE_CODE_TEXT,
@@ -331,7 +331,7 @@ export const MarkdownViewer: React.FC<MarkdownViewerProps> = ({
 
   return (
     <div
-      className={`overflow-hidden rounded-lg shadow-sm ${copyable && !label ? 'group relative' : ''} ${className}`}
+      className={`overflow-hidden rounded-lg shadow-xs ${copyable && !label ? 'group relative' : ''} ${className}`}
       style={{
         backgroundColor: CODE_BG,
         border: `1px solid ${CODE_BORDER}`,

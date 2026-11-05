@@ -85,7 +85,7 @@ export const WorktreeBadge = ({
   if (isMain) {
     return (
       <span
-        className={`inline-flex shrink-0 items-center rounded px-1 py-px text-[9px] font-medium ${className}`}
+        className={`inline-flex shrink-0 items-center rounded-sm px-1 py-px text-[9px] font-medium ${className}`}
         style={{
           backgroundColor: DEFAULT_CONFIG.bgColor,
           color: DEFAULT_CONFIG.textColor,
@@ -105,7 +105,7 @@ export const WorktreeBadge = ({
 
   return (
     <span
-      className={`inline-flex shrink-0 items-center rounded px-1 py-px text-[9px] font-medium ${className}`}
+      className={`inline-flex shrink-0 items-center rounded-sm px-1 py-px text-[9px] font-medium ${className}`}
       style={{
         backgroundColor: config.bgColor,
         color: config.textColor,

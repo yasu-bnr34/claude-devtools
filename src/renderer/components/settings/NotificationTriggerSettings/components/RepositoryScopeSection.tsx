@@ -27,7 +27,7 @@ export const RepositoryScopeSection = ({
 }: Readonly<RepositoryScopeSectionProps>): React.JSX.Element => {
   return (
     <details className="mt-4">
-      <summary className="cursor-pointer text-xs uppercase tracking-widest text-text-muted hover:text-text-secondary">
+      <summary className="cursor-pointer text-xs tracking-widest text-text-muted uppercase hover:text-text-secondary">
         Advanced: Repository Scope
       </summary>
       <div className="mt-3 border-l border-border pl-4">
@@ -35,7 +35,7 @@ export const RepositoryScopeSection = ({
           Limit to Repositories (applies only to selected repositories)
         </span>
         {selectedItems.length === 0 ? (
-          <p className="mb-2 text-xs italic text-text-muted">
+          <p className="mb-2 text-xs text-text-muted italic">
             No repositories selected - trigger applies to all repositories
           </p>
         ) : (

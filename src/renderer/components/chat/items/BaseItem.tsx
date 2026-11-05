@@ -90,7 +90,7 @@ export const BaseItem: React.FC<BaseItemProps> = ({
 }) => {
   return (
     <div
-      className={`rounded transition-[background-color,box-shadow] duration-300 ${highlightClasses}`}
+      className={`rounded-sm transition-[background-color,box-shadow] duration-300 ${highlightClasses}`}
       style={highlightStyle}
     >
       {/* Clickable Header */}
@@ -104,7 +104,7 @@ export const BaseItem: React.FC<BaseItemProps> = ({
             onClick();
           }
         }}
-        className="group flex cursor-pointer items-center gap-2 rounded px-2 py-1.5"
+        className="group flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5"
         style={{ backgroundColor: 'transparent' }}
         onMouseEnter={(e) =>
           Object.assign(e.currentTarget.style, { backgroundColor: 'var(--tool-item-hover-bg)' })
@@ -141,7 +141,7 @@ export const BaseItem: React.FC<BaseItemProps> = ({
         {/* Token count badge */}
         {tokenCount != null && tokenCount > 0 && (
           <span
-            className="shrink-0 rounded px-1.5 py-0.5 text-xs"
+            className="shrink-0 rounded-sm px-1.5 py-0.5 text-xs"
             style={{
               color: TOOL_ITEM_MUTED,
               backgroundColor: 'var(--tool-item-badge-bg)',
@@ -181,7 +181,7 @@ export const BaseItem: React.FC<BaseItemProps> = ({
       {/* Expanded Content */}
       {isExpanded && children && (
         <div
-          className="ml-2 mt-2 space-y-3 pl-6"
+          className="mt-2 ml-2 space-y-3 pl-6"
           style={{ borderLeft: '2px solid var(--color-border)' }}
         >
           {children}

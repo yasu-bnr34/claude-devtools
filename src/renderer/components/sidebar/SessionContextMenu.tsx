@@ -89,7 +89,7 @@ export const SessionContextMenu = ({
   return (
     <div
       ref={menuRef}
-      className="fixed z-50 min-w-[220px] overflow-hidden rounded-md border py-1 shadow-lg"
+      className="fixed z-50 min-w-55 overflow-hidden rounded-md border py-1 shadow-lg"
       style={{
         left: clampedX,
         top: clampedY,
@@ -159,7 +159,7 @@ const MenuItem = ({
 }): React.JSX.Element => {
   return (
     <button
-      className="flex w-full items-center justify-between px-3 py-1.5 text-left text-sm transition-colors hover:bg-[var(--color-surface-raised)]"
+      className="flex w-full items-center justify-between px-3 py-1.5 text-left text-sm transition-colors hover:bg-(--color-surface-raised)"
       onClick={onClick}
       disabled={disabled}
       style={{ opacity: disabled ? 0.4 : 1 }}

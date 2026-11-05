@@ -22,7 +22,7 @@ export const ContextSwitchOverlay: React.FC = () => {
     targetContextId === 'local' ? 'Local' : (targetContextId?.replace(/^ssh-/, '') ?? 'Unknown');
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-surface">
+    <div className="fixed inset-0 z-9999 flex items-center justify-center bg-surface">
       <div className="flex flex-col items-center gap-4">
         {/* Spinner */}
         <div className="size-8 animate-spin rounded-full border-4 border-text border-t-transparent" />

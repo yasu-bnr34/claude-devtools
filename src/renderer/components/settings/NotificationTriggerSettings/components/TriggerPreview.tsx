@@ -34,12 +34,12 @@ export const TriggerPreview = ({
   return (
     <div className="mt-4 border-t border-border pt-4">
       <div className="mb-2 flex items-center justify-between">
-        <span className="text-xs uppercase tracking-widest text-text-muted">Preview</span>
+        <span className="text-xs tracking-widest text-text-muted uppercase">Preview</span>
         <button
           type={isFormContext ? 'button' : undefined}
           onClick={onTest}
           disabled={isLoading}
-          className={`rounded bg-surface-raised px-2 py-1 text-xs text-text-secondary transition-colors hover:bg-surface-overlay ${isLoading ? 'cursor-not-allowed opacity-50' : ''} `}
+          className={`rounded-sm bg-surface-raised px-2 py-1 text-xs text-text-secondary transition-colors hover:bg-surface-overlay ${isLoading ? 'cursor-not-allowed opacity-50' : ''} `}
         >
           {isLoading ? (
             <span className="flex items-center gap-1">
@@ -63,7 +63,7 @@ export const TriggerPreview = ({
 
           {/* Truncation warning - only shown when timeout or count limit hit */}
           {previewResult.truncated && (
-            <div className="flex items-center gap-2 rounded border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs text-amber-400">
+            <div className="flex items-center gap-2 rounded-sm border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs text-amber-400">
               <AlertTriangle className="size-4 shrink-0" />
               <span>
                 Search stopped early (timeout or count limit). Actual matches may be higher.
@@ -86,7 +86,7 @@ export const TriggerPreview = ({
               <button
                 type={isFormContext ? 'button' : undefined}
                 onClick={() => onViewSession(error)}
-                className="shrink-0 rounded px-2 py-1 text-indigo-400 transition-colors hover:bg-indigo-500/10"
+                className="shrink-0 rounded-sm px-2 py-1 text-indigo-400 transition-colors hover:bg-indigo-500/10"
               >
                 View Session
               </button>

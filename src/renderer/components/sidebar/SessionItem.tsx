@@ -94,7 +94,7 @@ const ConsumptionBadge = ({
         phaseBreakdown.length > 0 &&
         createPortal(
           <div
-            className="pointer-events-none fixed z-50 -translate-x-1/2 -translate-y-full whitespace-nowrap rounded-lg px-3 py-2 text-[10px] shadow-xl"
+            className="pointer-events-none fixed z-50 -translate-x-1/2 -translate-y-full rounded-lg px-3 py-2 text-[10px] whitespace-nowrap shadow-xl"
             style={{
               top: popoverPosition.top,
               left: popoverPosition.left,
@@ -246,7 +246,7 @@ export const SessionItem = React.memo(function SessionItemFn({
       <button
         onClick={handleClick}
         onContextMenu={handleContextMenu}
-        className={`h-[48px] w-full overflow-hidden border-b px-3 py-2 text-left transition-all duration-150 ${isActive ? '' : 'bg-transparent hover:opacity-80'} `}
+        className={`h-12 w-full overflow-hidden border-b px-3 py-2 text-left transition-all duration-150 ${isActive ? '' : 'bg-transparent hover:opacity-80'} `}
         style={{
           borderColor: 'var(--color-border)',
           ...(isActive ? { backgroundColor: 'var(--color-surface-raised)' } : {}),
@@ -268,7 +268,7 @@ export const SessionItem = React.memo(function SessionItemFn({
           {isPinned && <Pin className="size-2.5 shrink-0 text-blue-400" />}
           {isHidden && <EyeOff className="size-2.5 shrink-0 text-zinc-500" />}
           <span
-            className="truncate text-[13px] font-medium leading-tight"
+            className="truncate text-[13px] leading-tight font-medium"
             style={{ color: isActive ? 'var(--color-text)' : 'var(--color-text-muted)' }}
           >
             {session.firstMessage ?? 'Untitled'}

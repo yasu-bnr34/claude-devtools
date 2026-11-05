@@ -89,7 +89,7 @@ export const DisplayItemList = React.memo(function DisplayItemListFn({
 
   if (!items || items.length === 0) {
     return (
-      <div className="px-3 py-2 text-sm italic text-claude-dark-text-secondary">
+      <div className="px-3 py-2 text-sm text-claude-dark-text-secondary italic">
         No items to display
       </div>
     );
@@ -283,7 +283,7 @@ export const DisplayItemList = React.memo(function DisplayItemListFn({
                     </span>
                   )}
                   <span
-                    className="shrink-0 rounded px-1.5 py-0.5 text-[10px]"
+                    className="shrink-0 rounded-sm px-1.5 py-0.5 text-[10px]"
                     style={{
                       backgroundColor: 'rgba(99, 102, 241, 0.15)',
                       color: '#818cf8',
