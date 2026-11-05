@@ -286,3 +286,58 @@ Branch: `deps/update-20261105`（base: `origin/main` 92beeab）
 ### 注意
 
 - `pnpm check` はアプリの起動を含まない。electron 45.2.3・mermaid 12.3 は GUI での起動・図の描画確認を推奨。
+
+## publish 先の fork 化（2026-11-05）
+
+Branch: `fix/publish-fork-20261105`（base: `origin/main` a84d57b）
+
+### 変更内容
+
+`package.json` の `build.publish[0]` に `"owner": "yasu-bnr34"` と `"repo": "claude-devtools"` を追加した。それまでは owner/repo の指定がなく、electron-builder が `repository.url`（`https://github.com/matt1398/claude-devtools.git`）から公開先を upstream と推定していた。fork で Release ワークフローを実行した際は upstream へのアップロードを試み 403 で停止した（公開はされていない）。
+
+`repository` / `homepage` / `bugs` / `author` は upstream 由来のメタデータとして変更していない。
+
+### 変更前後の `resources/app-update.yml`
+
+`pnpm build` → `electron-builder --linux dir --publish never` で生成した `release/linux-unpacked/resources/app-update.yml`。
+
+変更前:
+
+```yaml
+owner: matt1398
+repo: claude-devtools
+provider: github
+releaseType: draft
+updaterCacheDirName: claude-devtools-updater
+```
+
+変更後:
+
+```yaml
+owner: yasu-bnr34
+repo: claude-devtools
+provider: github
+releaseType: draft
+updaterCacheDirName: claude-devtools-updater
+```
+
+`release/linux-unpacked/` 配下の全ファイル（166 件）を sha256 で比べ、差は `app-update.yml` だけだった。`app.asar` はバイト単位で同一（展開した 18,217 ファイルも同一）、`app.asar.unpacked` も同一。
+
+### 影響
+
+- Release ワークフロー（`release.yml` の `--publish always`）のアップロード先が fork の Releases になる。
+- パッケージ版アプリの自動更新（electron-updater。`setFeedURL` は未使用で `app-update.yml` を参照）が fork の Releases を見る。この変更を含むビルドを配布した後は、fork に Release が無いと更新は見つからない。この変更より前に配布したビルドは引き続き upstream を見る。
+- mac・win の `app-update.yml` も同じ `build.publish` から生成されるが、このコンテナでは未確認。
+
+### 上流を取り込む際の注意
+
+upstream の `package.json` で `build.publish` 付近が変わると、この箇所が競合しうる。解消時は `owner: yasu-bnr34` / `repo: claude-devtools` を残すこと。
+
+### ベースラインとの差
+
+| 項目 | ベースライン（main a84d57b） | 本ブランチ |
+|---|---|---|
+| `pnpm check` | exit 0 | exit 0 |
+| テスト | 959 passed / 72 files | 959 passed / 72 files（変化なし） |
+| lint | 0 errors / 10 warnings | 0 errors / 10 warnings（変化なし） |
+| 変更ファイル | — | package.json（`build.publish` のみ）・UPGRADE_NOTES.md |
