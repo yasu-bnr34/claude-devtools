@@ -193,3 +193,47 @@ eslint 9.39.5 → 10.x は **見送り**（依存は変更なし）。事前調�
 ### 再挑戦の条件
 
 eslint-plugin-import・eslint-plugin-jsx-a11y・eslint-plugin-react が eslint 10 対応版を出し、かつ eslint-plugin-react-hooks 7.1.x の見送り分（前節の 7 件）が解消できること。代替プラグイン（eslint-plugin-import-x 等）への置き換えはルールの意味が変わりうるため今回の範囲外。
+
+## patch/minor 追補（2026-11-05）
+
+Branch: `deps/update-20261105`（base: `origin/main` 92beeab）
+
+### 結論
+
+範囲内の patch/minor を `pnpm update '!eslint-plugin-react-hooks'` で更新した。eslint-plugin-react-hooks は `^7.0.1` の範囲に 7.1.1 が入るが、前々節のとおり見送り中のため除外（7.0.1 のまま）。コード・設定の追従修正はなし（変更は package.json と pnpm-lock.yaml のみ）。
+
+### 更新できたもの
+
+| パッケージ | 旧 → 新 | 追従修正 |
+|---|---|---|
+| @fastify/cors | 11.3.1 → 11.4.0 | なし |
+| @fastify/static | 10.1.8 → 10.1.10 | なし |
+| @tanstack/react-virtual | 3.14.25 → 3.14.26 | なし |
+| fastify | 5.12.7 → 5.12.8 | なし |
+| lucide-react | 1.66.0 → 1.68.0 | なし |
+| mermaid | 12.2.0 → 12.3.0 | なし |
+| electron | 45.2.1 → 45.2.3 | なし |
+| vitest / @vitest/coverage-v8 | 5.0.5 → 5.1.0 | なし |
+
+### 見送り（今回の対象外）
+
+| パッケージ | 現行 → latest | 理由 |
+|---|---|---|
+| eslint-plugin-react-hooks | 7.0.1 → 7.1.1 | 範囲内だが除外。7.1.1 は lint error 7 件が挙動変更なしに直せず見送り中（react-hooks 追補） |
+| eslint / @eslint/js | 9.39.5 → 10.14.0 / 10.0.1 | メジャー。プラグイン 3 件が peer 非対応（eslint 10 追補） |
+| typescript | 5.9.3 → 7.0.2 | メジャー。typescript-eslint の peer が `<6.1.0` |
+| tailwindcss / eslint-plugin-tailwindcss | 3.4.19 → 4.3.4 / 3.18.3 → 4.4.0 | メジャー。設定・CSS の移行が必要で未試行 |
+| electron-builder | 25.1.8 → 26.18.0 | メジャー。配布・署名は `pnpm check` で検証できないため未試行 |
+
+### ベースラインとの差
+
+| 項目 | ベースライン（main 92beeab） | 本ブランチ |
+|---|---|---|
+| `pnpm check` | exit 0 | exit 0 |
+| テスト | 959 passed / 72 files | 959 passed / 72 files（変化なし） |
+| lint | 0 errors / 10 warnings | 0 errors / 10 warnings（変化なし・内訳同じ） |
+| 変更ファイル | — | package.json・pnpm-lock.yaml・UPGRADE_NOTES.md |
+
+### 注意
+
+- `pnpm check` はアプリの起動を含まない。electron 45.2.3・mermaid 12.3 は GUI での起動・図の描画確認を推奨。
