@@ -125,9 +125,22 @@ describe('validate-path', () => {
     expect(await call('validate-path', 'a.txt', undefined)).toEqual({ exists: false });
   });
 
-  it('current behavior (要確認): a trailing slash on projectPath blocks in-project paths', async () => {
-    // path.normalize keeps the trailing "/", so base + sep becomes ".../proj//"
-    expect(await call('validate-path', 'a.txt', project + path.sep)).toEqual({ exists: false });
+  it('accepts in-project paths when projectPath has a trailing separator', async () => {
+    expect(await call('validate-path', 'a.txt', project + path.sep)).toEqual({
+      exists: true,
+      isDirectory: false,
+    });
+    expect(await call('validate-path', '', project + path.sep)).toEqual({
+      exists: true,
+      isDirectory: true,
+    });
+    expect(takeConsole('warn')).toEqual([]);
+  });
+
+  it('still blocks traversal when projectPath has a trailing separator', async () => {
+    expect(await call('validate-path', '../proj2/f.txt', project + path.sep)).toEqual({
+      exists: false,
+    });
     expect(takeConsole('warn')).toHaveLength(1);
   });
 });
@@ -214,12 +227,17 @@ describe('session:scrollToLine', () => {
     expect(takeConsole('error')).toHaveLength(1);
   });
 
-  it('current behavior (要確認): NaN passes validation and is returned as success', async () => {
-    const result = (await call('session:scrollToLine', 's1', Number.NaN)) as {
-      success: boolean;
-      lineNumber: number;
-    };
-    expect(result.success).toBe(true);
-    expect(Number.isNaN(result.lineNumber)).toBe(true);
-  });
+  it.each([Number.NaN, 1.5, Number.POSITIVE_INFINITY])(
+    'rejects a non-integer line number (%s)',
+    async (lineNumber) => {
+      expect(await call('session:scrollToLine', 's1', lineNumber)).toEqual({
+        success: false,
+        sessionId: 's1',
+        lineNumber: 0,
+      });
+      expect(takeConsole('error')).toEqual([
+        ['[IPC:validation]', 'session:scrollToLine called with invalid lineNumber'],
+      ]);
+    }
+  );
 });

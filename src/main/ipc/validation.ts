@@ -45,12 +45,15 @@ export function removeValidationHandlers(ipcMain: IpcMain): void {
  * Prevents path traversal attacks (e.g., ../../etc/passwd).
  */
 function isPathContained(fullPath: string, basePath: string): boolean {
-  const normalizedFull = path.normalize(fullPath);
-  const normalizedBase = path.normalize(basePath);
+  // path.resolve normalizes and strips trailing separators (except for a root like "/"),
+  // so "/proj/" and "/proj" compare equal.
+  const normalizedFull = path.resolve(fullPath);
+  const normalizedBase = path.resolve(basePath);
+  const basePrefix = normalizedBase.endsWith(path.sep) ? normalizedBase : normalizedBase + path.sep;
 
   // Ensure the full path starts with the base path followed by a separator
   // or is exactly the base path
-  return normalizedFull === normalizedBase || normalizedFull.startsWith(normalizedBase + path.sep);
+  return normalizedFull === normalizedBase || normalizedFull.startsWith(basePrefix);
 }
 
 // =============================================================================
@@ -132,7 +135,7 @@ async function handleScrollToLine(
       return { success: false, sessionId: '', lineNumber: 0 };
     }
 
-    if (typeof lineNumber !== 'number' || lineNumber < 0) {
+    if (!Number.isInteger(lineNumber) || lineNumber < 0) {
       logger.error('session:scrollToLine called with invalid lineNumber');
       return { success: false, sessionId, lineNumber: 0 };
     }

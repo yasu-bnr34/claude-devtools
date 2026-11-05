@@ -36,6 +36,12 @@ src/ は未修正。下記 1・2 は「current behavior (要確認)」として�
 | 3 | src/main/utils/metadataExtraction.ts:59 | `extractCwd` は 1 行でも壊れた JSON があると、その後ろに cwd があっても `null` を返す（console.error あり） | 同ファイルの `extractFirstUserMessagePreview`（:106-110）は不正行を `continue` で飛ばしており、扱いが非対称。cwd は通常先頭付近にあるため影響は小さい見込み（テストは観測値どおり null を固定） |
 | 4 | src/shared/constants/triggerColors.ts:105, :138 | `getHighlightProps('')` / 未知の色名は、`getTriggerColorDef` では red にフォールバックするのに、preset クラスでなく inline style 経路（red hex + alpha）を返す | `color ?? DEFAULT` は `''` を拾わず、未知名も preset 判定を外れるため。見た目は red-500/30・/5 とほぼ同等で実害は小さい（軽微） |
 
+**追記（修正済み）:** 上記 1〜4 は後続の修正（ブランチ claude/determined-brown-27zkrl）で `src/` を修正し、「要確認」として固定していたテストを修正後の挙動に更新した。
+1. `isPathContained` を `path.resolve` で比較し、末尾区切りを除去 → 末尾スラッシュ付き projectPath でもプロジェクト内パスを許可（traversal は引き続き拒否）
+2. `lineNumber` を `Number.isInteger` で検証 → NaN・小数・Infinity を拒否
+3. `extractCwd` は不正な JSON 行を 1 行ずつスキップ（preview と同じ扱い）。ストリームエラー時のみ console.error + null
+4. `getHighlightProps` / `getToolHighlightProps` は `getTriggerColorDef` で解決してから判定 → `''`・未知名・不正 hex は red の preset クラス
+
 hex 桁数・alpha 連結の問題は SUSPECT_NOTES.md #2 で扱われ、PR #8 で修正済みのため、ここでは挙げない（6 桁 hex のみを使う本テストの期待値は修正前後で同じ）。
 
 ## 外したテスト
