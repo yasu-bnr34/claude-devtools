@@ -102,9 +102,10 @@ export function getHighlightProps(color: TriggerColor | undefined): {
   className: string;
   style?: React.CSSProperties;
 } {
-  const key = color ?? DEFAULT_TRIGGER_COLOR;
-  if (isPresetColorKey(key)) return { className: HIGHLIGHT_CLASSES[key] };
-  const hex = resolveColorHex(key);
+  // Resolve first so empty / unknown values fall back to the default preset's classes
+  const def = getTriggerColorDef(color);
+  if (isPresetColorKey(def.key)) return { className: HIGHLIGHT_CLASSES[def.key] };
+  const hex = def.hex;
   return {
     className: 'ring-2',
     style: {
@@ -135,9 +136,10 @@ export function getToolHighlightProps(color: TriggerColor | undefined): {
   className: string;
   style?: React.CSSProperties;
 } {
-  const key = color ?? DEFAULT_TRIGGER_COLOR;
-  if (isPresetColorKey(key)) return { className: TOOL_HIGHLIGHT_CLASSES[key] };
-  const hex = resolveColorHex(key);
+  // Resolve first so empty / unknown values fall back to the default preset's classes
+  const def = getTriggerColorDef(color);
+  if (isPresetColorKey(def.key)) return { className: TOOL_HIGHLIGHT_CLASSES[def.key] };
+  const hex = def.hex;
   return {
     className: 'ring-2 animate-pulse',
     style: { boxShadow: `0 0 0 2px ${hex}`, backgroundColor: withAlpha(hex, '1A') },

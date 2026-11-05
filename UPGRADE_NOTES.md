@@ -264,3 +264,188 @@ tailwindcss 3.4.19 → 4.3.4 に **更新した**。公式の移行ツールで�
 - 撮影していない画面。コンテキストパネル、通知パネル、更新ダイアログ（`prose`）、サブエージェント・diff・コードの各ビューアなど。
 - hover / focus などの状態と、カーソル形状。
 - v4 の `hover:` は `@media (hover: hover)` の環境でだけ効く。タッチ専用の端末では hover の見た目が出なくなる。
+
+## electron-builder 26 追補（2026-11-05）
+
+Branch: `claude/gifted-knuth-c6fytr`（base: `origin/main` 1fc3bc7）
+
+### 結論
+
+electron-builder 25.1.8 → 26.18.1 に **更新した**。変更は `package.json` の版指定と lockfile のみで、`build` 設定は無変更。26.0.0 の破壊的変更は次の2件で、このリポジトリはどちらにも該当しない。
+
+- #8582: win の署名フィールドを `win.signtoolOptions` へ移動し、mac の notarize オプションを環境変数方式へ移行
+  - win の署名設定は未使用
+  - `mac.notarize: true` は v26 でも boolean のまま。公証用の `APPLE_ID` / `APPLE_APP_SPECIFIC_PASSWORD` / `APPLE_TEAM_ID` は `release.yml` で設定済み
+- #8572: linux の `desktop` がオブジェクトになった。`desktop` は未使用
+
+26.18.1 は `v26` タグの最新（`latest` タグは 26.18.0）。
+
+### 検証（Linux のみ。mac・win はこのコンテナでは作れない）
+
+| 項目 | 結果 |
+|---|---|
+| `electron-builder --linux dir --publish never` | 25.1.8・26.18.1 とも成功 |
+| アプリ本体（asar 内の `out/`・`dist-electron/`・`package.json`） | 25 と 26 で同一 |
+| `resources/app-update.yml` | 25 と 26 で同一（provider github / releaseType draft） |
+| `app.asar.unpacked` | 25 と 26 で同一 |
+| asar 内の node_modules | パッケージ数 272 → 312。増えた 40 件はすべて `@types/*`（mermaid・react-markdown などの依存）。ほかに d3-shape・cose-base/layout-base・fast-uri・commander などで入れ子の配置が変わった。app.asar は 241,287,570 → 241,380,462 bytes（+92,892）。main・preload のバンドルが実行時に `require` する外部モジュールは `electron` だけ（残っている他の `require()` 文字列はコード生成用とコメント）なので、node_modules の差は実行時に影響しない |
+| `electron-builder --linux`（AppImage / deb / rpm / pacman、26.18.1） | 4 形式とも成功。pacman は xz 圧縮に約 5 分かかり、`bsdtar -tf` で展開を検証済み |
+| deb の postinst | `resources/afterInstall.sh` の `${productFilename}` を `claude-devtools` に置き換えた内容で、想定どおり |
+
+検証時の注意点:
+
+- rpm・pacman には `rpmbuild` / `bsdtar` が必要。コンテナに無かったため、`release.yml:250-251` と同じ `rpm`・`libarchive-tools` を apt で入れてから実行した。
+- `-c.electronDist=node_modules/electron/dist` を指定すると、26 では `resources/default_app.asar` と `version` も同梱される。CI と同じ経路（Electron を自動ダウンロード）ではどちらも同梱されず、asar もバイト単位で同一になる。CI の設定は `electronDist` を使っていないので影響はない。
+- 26 の Linux ビルドで `desktopName` 未設定の警告（ウィンドウと .desktop の関連付け）が出る。25 で同じ警告が出ていたかは未確認。設定は変えていない。
+
+### 未検証（要確認）
+
+- mac（dmg / zip、署名・公証）と win（nsis）の配布物の作成。`release.yml` の実行で確認が必要。
+- パッケージ版アプリの起動と、electron-updater（6.8.11 のまま）による自動更新。
+- peer の `electron-builder-squirrel-windows` は 24.13.3 に解決される（26.18.1 の peer 指定は `26.18.1`）。更新前も 24.13.3 で（25.1.8 の peer 指定は `25.1.8`）、squirrel ターゲットは使っていないため変更していない。
+
+### ベースラインとの差
+
+| 項目 | ベースライン（main 1fc3bc7） | 本ブランチ |
+|---|---|---|
+| electron-builder | 25.1.8 | 26.18.1 |
+| `pnpm check` | exit 0 | exit 0 |
+| テスト | 955 passed / 72 files | 955 passed / 72 files（変化なし） |
+| lint | 0 errors / 10 warnings | 0 errors / 10 warnings（変化なし） |
+| 変更ファイル | — | package.json・pnpm-lock.yaml・UPGRADE_NOTES.md |
+
+## patch/minor 追補（2026-11-05）
+
+Branch: `deps/update-20261105`（base: `origin/main` 92beeab）
+
+### 結論
+
+範囲内の patch/minor を `pnpm update '!eslint-plugin-react-hooks'` で更新した。eslint-plugin-react-hooks は `^7.0.1` の範囲に 7.1.1 が入るが、前々節のとおり見送り中のため除外（7.0.1 のまま）。コード・設定の追従修正はなし（変更は package.json と pnpm-lock.yaml のみ）。
+
+### 更新できたもの
+
+| パッケージ | 旧 → 新 | 追従修正 |
+|---|---|---|
+| @fastify/cors | 11.3.1 → 11.4.0 | なし |
+| @fastify/static | 10.1.8 → 10.1.10 | なし |
+| @tanstack/react-virtual | 3.14.25 → 3.14.26 | なし |
+| fastify | 5.12.7 → 5.12.8 | なし |
+| lucide-react | 1.66.0 → 1.68.0 | なし |
+| mermaid | 12.2.0 → 12.3.0 | なし |
+| electron | 45.2.1 → 45.2.3 | なし |
+| vitest / @vitest/coverage-v8 | 5.0.5 → 5.1.0 | なし |
+
+### 見送り（今回の対象外）
+
+| パッケージ | 現行 → latest | 理由 |
+|---|---|---|
+| eslint-plugin-react-hooks | 7.0.1 → 7.1.1 | 範囲内だが除外。7.1.1 は lint error 7 件が挙動変更なしに直せず見送り中（react-hooks 追補） |
+| eslint / @eslint/js | 9.39.5 → 10.14.0 / 10.0.1 | メジャー。プラグイン 3 件が peer 非対応（eslint 10 追補） |
+| typescript | 5.9.3 → 7.0.2 | メジャー。typescript-eslint の peer が `<6.1.0` |
+| tailwindcss / eslint-plugin-tailwindcss | 3.4.19 → 4.3.4 / 3.18.3 → 4.4.0 | メジャー。設定・CSS の移行が必要で未試行 |
+| electron-builder | 25.1.8 → 26.18.0 | メジャー。配布・署名は `pnpm check` で検証できないため未試行 |
+
+### ベースラインとの差
+
+| 項目 | ベースライン（main 92beeab） | 本ブランチ |
+|---|---|---|
+| `pnpm check` | exit 0 | exit 0 |
+| テスト | 959 passed / 72 files | 959 passed / 72 files（変化なし） |
+| lint | 0 errors / 10 warnings | 0 errors / 10 warnings（変化なし・内訳同じ） |
+| 変更ファイル | — | package.json・pnpm-lock.yaml・UPGRADE_NOTES.md |
+
+### 注意
+
+- `pnpm check` はアプリの起動を含まない。electron 45.2.3・mermaid 12.3 は GUI での起動・図の描画確認を推奨。
+
+## typescript 6.0 追補（2026-11-05）
+
+Branch: `deps/typescript6-20261105`（base: `origin/main` 45566f8）
+
+### 結論
+
+typescript 5.9.3 → 6.0.3 に **更新した**。TS 7 へ進む前の中間段階で、6.0 で非推奨になった設定を先に解消しておくのが目的。
+
+版指定は `~6.0.3` にした。typescript-eslint 8.72.1（latest）の peer は `typescript >=4.8.4 <6.1.0` なので、`^6.0.3` だと 6.1 に上がったときに対応範囲から外れる。
+
+### 変更
+
+| ファイル | 変更 | 理由 |
+|---|---|---|
+| `tsconfig.json`、`tsconfig.node.json` | `"baseUrl": "."` を削除 | TS 6.0 では非推奨となり、TS5101 エラーで型チェックが止まる（7.0 で削除）。`paths` の値はすでに `./` で始まっているため、削除だけで済む。`baseUrl` によって `src/...` のような裸のパスを解決している import は 0 件（`src`・`test` を grep で確認） |
+| `test/renderer/utils/stringUtils.test.ts` | `getRandomValues` モックの戻り値の `as Uint8Array` を削除 | TS 6.0 の DOM 型定義で `getRandomValues` の型が `ArrayBufferView<ArrayBuffer>` に厳しくなり、TS2345 が出た。テストの型付けだけの修正で、実行時の挙動は変わらない |
+| `CLAUDE.md` | Tech Stack を TypeScript 6.x に更新 | — |
+
+TS 6.0 の既定値変更（`types: []`、`strict: true`、`module: esnext`、`noUncheckedSideEffectImports: true`、`rootDir` 等）は影響しなかった。各 tsconfig が該当する値を明示しているか、`noEmit` で出力しないため。
+
+### 検証
+
+| 項目 | ベースライン（main 45566f8、TS 5.9.3） | 本ブランチ（TS 6.0.3） |
+|---|---|---|
+| `pnpm check` | exit 0 | exit 0 |
+| テスト | 959 passed / 72 files | 959 passed / 72 files（変化なし） |
+| lint | 0 errors / 10 warnings | 0 errors / 10 warnings（変化なし）。typescript-eslint の「未対応バージョン」警告も出ない |
+| `tsc -p tsconfig.node.json`（check 対象外） | 既存エラー 2 件 | 同じ 2 件 |
+| `tsc -p tsconfig.test.json`（check 対象外） | 既存エラー 14 件 | 同じ 14 件（TS 6 で増えた 1 件は上記の修正で解消） |
+| ビルド成果物（`out/`・`dist-electron/` の 96 ファイル） | — | ベースラインとバイト単位で同一 |
+| `tsx` によるパスエイリアス解決（`@shared/*`・`@main/*`） | 解決できる | 解決できる（`baseUrl` なしでも可） |
+
+### 残っている点
+
+- `typescript@5.9.3` は lockfile に残っている。electron-builder 25 の依存（`app-builder-lib` → `config-file-ts`）が通常の依存として持っているためで、このプロジェクトのツールは使っていない。
+- **TS 7 の阻害要因は変わっていない。** typescript-eslint の peer が `<6.1.0` のままで、7.0 には従来の JS API が無い。typescript-eslint が TS 7 に対応した時点で再検討する。
+
+## publish 先の fork 化（2026-11-05）
+
+Branch: `fix/publish-fork-20261105`（base: `origin/main` a84d57b）
+
+### 変更内容
+
+`package.json` の `build.publish[0]` に `"owner": "yasu-bnr34"` と `"repo": "claude-devtools"` を追加した。それまでは owner/repo の指定がなく、electron-builder が `repository.url`（`https://github.com/matt1398/claude-devtools.git`）から公開先を upstream と推定していた。fork で Release ワークフローを実行した際は upstream へのアップロードを試み 403 で停止した（公開はされていない）。
+
+`repository` / `homepage` / `bugs` / `author` は upstream 由来のメタデータとして変更していない。
+
+### 変更前後の `resources/app-update.yml`
+
+`pnpm build` → `electron-builder --linux dir --publish never` で生成した `release/linux-unpacked/resources/app-update.yml`。
+
+変更前:
+
+```yaml
+owner: matt1398
+repo: claude-devtools
+provider: github
+releaseType: draft
+updaterCacheDirName: claude-devtools-updater
+```
+
+変更後:
+
+```yaml
+owner: yasu-bnr34
+repo: claude-devtools
+provider: github
+releaseType: draft
+updaterCacheDirName: claude-devtools-updater
+```
+
+`release/linux-unpacked/` 配下の全ファイル（166 件）を sha256 で比べ、差は `app-update.yml` だけだった。`app.asar` はバイト単位で同一（展開した 18,217 ファイルも同一）、`app.asar.unpacked` も同一。
+
+### 影響
+
+- Release ワークフロー（`release.yml` の `--publish always`）のアップロード先が fork の Releases になる。
+- パッケージ版アプリの自動更新（electron-updater。`setFeedURL` は未使用で `app-update.yml` を参照）が fork の Releases を見る。この変更を含むビルドを配布した後は、fork に Release が無いと更新は見つからない。この変更より前に配布したビルドは引き続き upstream を見る。
+- mac・win の `app-update.yml` も同じ `build.publish` から生成されるが、このコンテナでは未確認。
+
+### 上流を取り込む際の注意
+
+upstream の `package.json` で `build.publish` 付近が変わると、この箇所が競合しうる。解消時は `owner: yasu-bnr34` / `repo: claude-devtools` を残すこと。
+
+### ベースラインとの差
+
+| 項目 | ベースライン（main a84d57b） | 本ブランチ |
+|---|---|---|
+| `pnpm check` | exit 0 | exit 0 |
+| テスト | 959 passed / 72 files | 959 passed / 72 files（変化なし） |
+| lint | 0 errors / 10 warnings | 0 errors / 10 warnings（変化なし） |
+| 変更ファイル | — | package.json（`build.publish` のみ）・UPGRADE_NOTES.md |

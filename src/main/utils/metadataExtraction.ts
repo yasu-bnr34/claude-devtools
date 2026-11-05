@@ -54,9 +54,16 @@ export async function extractCwd(
 
   try {
     for await (const line of rl) {
-      if (!line.trim()) continue;
+      const trimmed = line.trim();
+      if (!trimmed) continue;
 
-      const entry = JSON.parse(line) as ChatHistoryEntry;
+      let entry: ChatHistoryEntry;
+      try {
+        entry = JSON.parse(trimmed) as ChatHistoryEntry;
+      } catch {
+        // Skip malformed lines (e.g. a partially written entry) and keep scanning
+        continue;
+      }
       // Only conversational entries have cwd
       if ('cwd' in entry && entry.cwd) {
         rl.close();

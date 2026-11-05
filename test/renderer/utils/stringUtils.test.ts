@@ -28,7 +28,7 @@ describe('generateUUID', () => {
 
       vi.spyOn(crypto, 'getRandomValues').mockImplementation((array) => {
         (array as Uint8Array).set(FIXED_BYTES);
-        return array as Uint8Array;
+        return array;
       });
     });
 
