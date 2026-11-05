@@ -178,6 +178,8 @@
     "publish": [
       {
         "provider": "github",
+        "owner": "yasu-bnr34",
+        "repo": "claude-devtools",
         "releaseType": "draft"
       }
     ]
