@@ -194,6 +194,55 @@ eslint 9.39.5 → 10.x は **見送り**（依存は変更なし）。事前調�
 
 eslint-plugin-import・eslint-plugin-jsx-a11y・eslint-plugin-react が eslint 10 対応版を出し、かつ eslint-plugin-react-hooks 7.1.x の見送り分（前節の 7 件）が解消できること。代替プラグイン（eslint-plugin-import-x 等）への置き換えはルールの意味が変わりうるため今回の範囲外。
 
+## electron-builder 26 追補（2026-11-05）
+
+Branch: `claude/gifted-knuth-c6fytr`（base: `origin/main` 1fc3bc7）
+
+### 結論
+
+electron-builder 25.1.8 → 26.18.1 に **更新した**。変更は `package.json` の版指定と lockfile のみで、`build` 設定は無変更。26.0.0 の破壊的変更は次の2件で、このリポジトリはどちらにも該当しない。
+
+- #8582: win の署名フィールドを `win.signtoolOptions` へ移動し、mac の notarize オプションを環境変数方式へ移行
+  - win の署名設定は未使用
+  - `mac.notarize: true` は v26 でも boolean のまま。公証用の `APPLE_ID` / `APPLE_APP_SPECIFIC_PASSWORD` / `APPLE_TEAM_ID` は `release.yml` で設定済み
+- #8572: linux の `desktop` がオブジェクトになった。`desktop` は未使用
+
+26.18.1 は `v26` タグの最新（`latest` タグは 26.18.0）。
+
+### 検証（Linux のみ。mac・win はこのコンテナでは作れない）
+
+| 項目 | 結果 |
+|---|---|
+| `electron-builder --linux dir --publish never` | 25.1.8・26.18.1 とも成功 |
+| アプリ本体（asar 内の `out/`・`dist-electron/`・`package.json`） | 25 と 26 で同一 |
+| `resources/app-update.yml` | 25 と 26 で同一（provider github / releaseType draft） |
+| `app.asar.unpacked` | 25 と 26 で同一 |
+| asar 内の node_modules | パッケージ数 272 → 312。増えた 40 件はすべて `@types/*`（mermaid・react-markdown などの依存）。ほかに d3-shape・cose-base/layout-base・fast-uri・commander などで入れ子の配置が変わった。app.asar は 241,287,570 → 241,380,462 bytes（+92,892）。main・preload のバンドルが実行時に `require` する外部モジュールは `electron` だけ（残っている他の `require()` 文字列はコード生成用とコメント）なので、node_modules の差は実行時に影響しない |
+| `electron-builder --linux`（AppImage / deb / rpm / pacman、26.18.1） | 4 形式とも成功。pacman は xz 圧縮に約 5 分かかり、`bsdtar -tf` で展開を検証済み |
+| deb の postinst | `resources/afterInstall.sh` の `${productFilename}` を `claude-devtools` に置き換えた内容で、想定どおり |
+
+検証時の注意点:
+
+- rpm・pacman には `rpmbuild` / `bsdtar` が必要。コンテナに無かったため、`release.yml:250-251` と同じ `rpm`・`libarchive-tools` を apt で入れてから実行した。
+- `-c.electronDist=node_modules/electron/dist` を指定すると、26 では `resources/default_app.asar` と `version` も同梱される。CI と同じ経路（Electron を自動ダウンロード）ではどちらも同梱されず、asar もバイト単位で同一になる。CI の設定は `electronDist` を使っていないので影響はない。
+- 26 の Linux ビルドで `desktopName` 未設定の警告（ウィンドウと .desktop の関連付け）が出る。25 で同じ警告が出ていたかは未確認。設定は変えていない。
+
+### 未検証（要確認）
+
+- mac（dmg / zip、署名・公証）と win（nsis）の配布物の作成。`release.yml` の実行で確認が必要。
+- パッケージ版アプリの起動と、electron-updater（6.8.11 のまま）による自動更新。
+- peer の `electron-builder-squirrel-windows` は 24.13.3 に解決される（26.18.1 の peer 指定は `26.18.1`）。更新前も 24.13.3 で（25.1.8 の peer 指定は `25.1.8`）、squirrel ターゲットは使っていないため変更していない。
+
+### ベースラインとの差
+
+| 項目 | ベースライン（main 1fc3bc7） | 本ブランチ |
+|---|---|---|
+| electron-builder | 25.1.8 | 26.18.1 |
+| `pnpm check` | exit 0 | exit 0 |
+| テスト | 955 passed / 72 files | 955 passed / 72 files（変化なし） |
+| lint | 0 errors / 10 warnings | 0 errors / 10 warnings（変化なし） |
+| 変更ファイル | — | package.json・pnpm-lock.yaml・UPGRADE_NOTES.md |
+
 ## patch/minor 追補（2026-11-05）
 
 Branch: `deps/update-20261105`（base: `origin/main` 92beeab）
@@ -274,3 +323,58 @@ TS 6.0 の既定値変更（`types: []`、`strict: true`、`module: esnext`、`n
 
 - `typescript@5.9.3` は lockfile に残っている。electron-builder 25 の依存（`app-builder-lib` → `config-file-ts`）が通常の依存として持っているためで、このプロジェクトのツールは使っていない。
 - **TS 7 の阻害要因は変わっていない。** typescript-eslint の peer が `<6.1.0` のままで、7.0 には従来の JS API が無い。typescript-eslint が TS 7 に対応した時点で再検討する。
+
+## publish 先の fork 化（2026-11-05）
+
+Branch: `fix/publish-fork-20261105`（base: `origin/main` a84d57b）
+
+### 変更内容
+
+`package.json` の `build.publish[0]` に `"owner": "yasu-bnr34"` と `"repo": "claude-devtools"` を追加した。それまでは owner/repo の指定がなく、electron-builder が `repository.url`（`https://github.com/matt1398/claude-devtools.git`）から公開先を upstream と推定していた。fork で Release ワークフローを実行した際は upstream へのアップロードを試み 403 で停止した（公開はされていない）。
+
+`repository` / `homepage` / `bugs` / `author` は upstream 由来のメタデータとして変更していない。
+
+### 変更前後の `resources/app-update.yml`
+
+`pnpm build` → `electron-builder --linux dir --publish never` で生成した `release/linux-unpacked/resources/app-update.yml`。
+
+変更前:
+
+```yaml
+owner: matt1398
+repo: claude-devtools
+provider: github
+releaseType: draft
+updaterCacheDirName: claude-devtools-updater
+```
+
+変更後:
+
+```yaml
+owner: yasu-bnr34
+repo: claude-devtools
+provider: github
+releaseType: draft
+updaterCacheDirName: claude-devtools-updater
+```
+
+`release/linux-unpacked/` 配下の全ファイル（166 件）を sha256 で比べ、差は `app-update.yml` だけだった。`app.asar` はバイト単位で同一（展開した 18,217 ファイルも同一）、`app.asar.unpacked` も同一。
+
+### 影響
+
+- Release ワークフロー（`release.yml` の `--publish always`）のアップロード先が fork の Releases になる。
+- パッケージ版アプリの自動更新（electron-updater。`setFeedURL` は未使用で `app-update.yml` を参照）が fork の Releases を見る。この変更を含むビルドを配布した後は、fork に Release が無いと更新は見つからない。この変更より前に配布したビルドは引き続き upstream を見る。
+- mac・win の `app-update.yml` も同じ `build.publish` から生成されるが、このコンテナでは未確認。
+
+### 上流を取り込む際の注意
+
+upstream の `package.json` で `build.publish` 付近が変わると、この箇所が競合しうる。解消時は `owner: yasu-bnr34` / `repo: claude-devtools` を残すこと。
+
+### ベースラインとの差
+
+| 項目 | ベースライン（main a84d57b） | 本ブランチ |
+|---|---|---|
+| `pnpm check` | exit 0 | exit 0 |
+| テスト | 959 passed / 72 files | 959 passed / 72 files（変化なし） |
+| lint | 0 errors / 10 warnings | 0 errors / 10 warnings（変化なし） |
+| 変更ファイル | — | package.json（`build.publish` のみ）・UPGRADE_NOTES.md |
