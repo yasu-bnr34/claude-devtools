@@ -110,8 +110,11 @@ jobs:
       - name: Package & Release (macOS arm64 + x64)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CSC_LINK: ${{ secrets.CSC_LINK }}
-          CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
+          # Fork has no signing certificate. An unset secret expands to "", and electron-builder 26
+          # treats CSC_LINK="" as a path (resolves to the project dir -> "not a file" error).
+          # So CSC_LINK / CSC_KEY_PASSWORD are not passed; signing (and notarize) are skipped.
+          # To sign again: restore CSC_LINK / CSC_KEY_PASSWORD and remove the line below.
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
